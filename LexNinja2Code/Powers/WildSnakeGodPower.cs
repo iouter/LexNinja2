@@ -1,0 +1,64 @@
+﻿using BaseLib.Abstracts;
+using LexNinja2.LexNinja2Code.Extensions;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Cards;
+using MegaCrit.Sts2.Core.TestSupport;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace LexNinja2.LexNinja2Code.Powers;
+
+public class WildSnakeGodPower : CustomPowerModel
+{
+    public override PowerType Type => PowerType.Buff;
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override string CustomPackedIconPath => "WildSnakeGodPower.png".PowerImagePath();
+    public override string? CustomBigIconPath => "WildSnakeGodPower.png".BigPowerImagePath();
+    
+    public override async Task AfterSideTurnStart(CombatSide side, ICombatState combatState)
+    {
+        if (side != Owner.Side)
+            return;
+        NinjaAudio.Play("res://LexNinja2/audio/WildSnakeGod.mp3");
+        Flash();
+        foreach (CardModel card in PileType.Hand.GetPile(Owner.Player).Cards.Where<CardModel>((Func<CardModel, bool>) (c => !c.EnergyCost.CostsX)))
+        {
+            if (card.EnergyCost.GetWithModifiers(CostModifiers.None) >= 0)
+            {
+                card.EnergyCost.SetThisCombat(NextEnergyCost());
+                NCard.FindOnTable(card)?.PlayRandomizeCostAnim();
+            }
+        }
+        // IReadOnlyList<CardModel> cards = PileType.Hand.GetPile(Owner.Player).Cards;
+        // if (cards.Count == 0)
+        //     return;
+        // int amount = (int) ((Decimal) cards.Count * Amount);
+        // await CreatureCmd.GainBlock(Owner, amount, ValueProp.Unpowered, null);
+    }
+    public override Decimal ModifyHandDraw(Player player, Decimal count)
+    {
+        return player != this.Owner.Player ? count : count + Amount;
+    }
+    
+    private int _testEnergyCostOverride = -1;
+
+    public int TestEnergyCostOverride
+    {
+        get => this._testEnergyCostOverride;
+        set
+        {
+            TestMode.AssertOn();
+            this.AssertMutable();
+            this._testEnergyCostOverride = value;
+        }
+    }
+    private int NextEnergyCost()
+    {
+        return this.TestEnergyCostOverride >= 0 ? this.TestEnergyCostOverride : this.Owner.Player.RunState.Rng.CombatEnergyCosts.NextInt(4);
+    }
+}

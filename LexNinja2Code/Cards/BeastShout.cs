@@ -1,0 +1,84 @@
+﻿using BaseLib.Extensions;
+using LexNinja2.LexNinja2Code.Cards;
+using LexNinja2.LexNinja2Code.Cmd;
+using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Powers;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace LexNinja2.LexNinja2Code.Cards;
+
+public class BeastShout() : LexNinja2Card(1,
+    CardType.Attack, CardRarity.Uncommon,
+    TargetType.AllEnemies)
+{
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(11,ValueProp.Move),new DynamicVar("StrengthLoss", 1),new NinjutsuVar(1)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new CardKeyword[1] { CardKeyword.Exhaust };
+    protected override HashSet<CardTag> CanonicalTags => [NinjaTags.Ninjutsu];
+    
+    protected override async Task OnPlay(
+        PlayerChoiceContext choiceContext,
+        CardPlay play)
+    {
+        await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+        NinjaAudio.Play("res://LexNinja2/audio/BeastShout.mp3");
+        await MegaCrit.Sts2.Core.Commands.Cmd.Wait(0.5f);
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState).WithHitFx("vfx/vfx_attack_lightning",tmpSfx:"lightning_orb_evoke.mp3").Execute(choiceContext);
+        if (Ninjutsu())
+        {
+            NinjaAudio.Play("res://LexNinja2/audio/BeastVoice.mp3");
+            await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), CombatState.HittableEnemies, -DynamicVars["StrengthLoss"].BaseValue, Owner.Creature, this);
+        }
+    }
+
+    private Boolean Ninjutsu()
+    {
+        if (Owner.Creature.GetPower<FreeNinjutsuPower>() != null)
+        {
+            return true;
+        }
+        if (Owner.Creature.GetPower<Lexkela>() != null)
+        {
+            if (Owner.Creature.GetPower<Lexkela>().Amount >= DynamicVars["Renshu"].BaseValue)
+            {
+                PowerCmd.Apply<Lexkela>(new ThrowingPlayerChoiceContext(), Owner.Creature,-DynamicVars["Renshu"].BaseValue, Owner.Creature, this);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(4);
+        DynamicVars["StrengthLoss"].UpgradeValueBy(1);
+    }
+    
+    public override string CustomPortraitPath => "BeastShout_p.png".BigCardImagePath();
+    public override string PortraitPath => "BeastShout.png".CardImagePath();
+    public override string BetaPortraitPath => "beta/BeastShout.png".CardImagePath();
+    
+    
+    protected override bool ShouldGlowGoldInternal => CanCastNinjutsu();
+    private Boolean CanCastNinjutsu()
+    {
+        if (Owner.Creature.GetPower<FreeNinjutsuPower>() != null)
+        {
+            return true;
+        }
+        if (Owner.Creature.GetPower<Lexkela>() != null)
+        {
+            if (Owner.Creature.GetPower<Lexkela>().Amount >= DynamicVars["Renshu"].BaseValue)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}

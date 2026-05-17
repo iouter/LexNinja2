@@ -1,0 +1,12 @@
+{
+  "id": "LexNinja2",
+  "name": "LexNinja2",
+  "author": "Flimsy",
+  "description": "蕾忍Mod杀戮尖塔2的版本",
+  "version": "VERSION_PLACEHOLDER",
+  "min_game_version": "0.105.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [{ "id": "BaseLib", "min_version": "3.1.2" }],
+  "affects_gameplay": true
+}

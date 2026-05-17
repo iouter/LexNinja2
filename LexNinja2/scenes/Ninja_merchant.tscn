@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfak8d7s4og2v"]
+
+[ext_resource type="Texture2D" uid="uid://dsj6gtcuja53b" path="res://LexNinja2/images/charui/Ninja.png" id="1_3djnj"]
+[ext_resource type="Texture2D" uid="uid://dmv782si8sn5i" path="res://LexNinja2/images/charui/👆.png" id="2_yjvx7"]
+
+[node name="Ninja_Merchant" type="Node2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(-2, -175.25002)
+scale = Vector2(1.8195021, 1.8184211)
+texture = ExtResource("1_3djnj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-14.000004, -95.00001)
+rotation = 0.97563905
+texture = ExtResource("2_yjvx7")

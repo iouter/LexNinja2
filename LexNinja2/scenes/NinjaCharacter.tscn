@@ -1,0 +1,158 @@
+[gd_scene load_steps=13 format=3 uid="uid://bv635nuxskxwi"]
+
+[ext_resource type="Texture2D" uid="uid://dsj6gtcuja53b" path="res://LexNinja2/images/charui/Ninja.png" id="1_cwhfs"]
+[ext_resource type="Texture2D" uid="uid://cyxpj3aqq52ku" path="res://LexNinja2/images/charui/cast3.png" id="2_b3gem"]
+[ext_resource type="Texture2D" uid="uid://cgldb6e7mc8er" path="res://LexNinja2/images/charui/cast2.png" id="3_omipk"]
+[ext_resource type="Texture2D" uid="uid://b4xff6sh6jxsq" path="res://LexNinja2/images/charui/cast1.png" id="4_brc4v"]
+[ext_resource type="Texture2D" uid="uid://c2kccsvy752um" path="res://LexNinja2/images/charui/fallen.png" id="5_g6fdc"]
+[ext_resource type="Texture2D" uid="uid://dm0fkumoo8xll" path="res://LexNinja2/images/charui/hurt.png" id="6_uetf1"]
+[ext_resource type="Texture2D" uid="uid://d0f5qss8uu4da" path="res://LexNinja2/images/charui/hurt4.png" id="7_uetf1"]
+[ext_resource type="Texture2D" uid="uid://dfxkl85584kgu" path="res://LexNinja2/images/charui/hurt1.png" id="8_po7nr"]
+[ext_resource type="Texture2D" uid="uid://c63c3pb0pxnao" path="res://LexNinja2/images/charui/hurt2.png" id="9_3ui6k"]
+[ext_resource type="Texture2D" uid="uid://d2a3tvtq6jwy0" path="res://LexNinja2/images/charui/hurt3.png" id="10_kvwn6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_po7nr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cwhfs")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cwhfs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_b3gem")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_omipk")
+}, {
+"duration": 14.0,
+"texture": ExtResource("4_brc4v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_cwhfs")
+}],
+"loop": false,
+"name": &"cast",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_uetf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_po7nr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_3ui6k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_kvwn6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_uetf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uetf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_po7nr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_3ui6k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_kvwn6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_uetf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uetf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_po7nr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_3ui6k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_kvwn6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_uetf1")
+}, {
+"duration": 10.0,
+"texture": ExtResource("6_uetf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_g6fdc")
+}],
+"loop": false,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 5.0,
+"texture": ExtResource("6_uetf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_cwhfs")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cwhfs")
+}],
+"loop": true,
+"name": &"idle_loop",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_uetf1"]
+script/source = "extends AnimatedSprite2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="NinjaCharacter" type="Node2D"]
+position = Vector2(1, -100)
+
+[node name="Visuals" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -111.00001)
+scale = Vector2(1.1421055, 1.1421053)
+sprite_frames = SubResource("SpriteFrames_po7nr")
+animation = &"idle_loop"
+autoplay = "idle_loop"
+frame_progress = 0.50937307
+script = SubResource("GDScript_uetf1")
+
+[node name="Bounds" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -116.0
+offset_top = -219.0
+offset_right = 113.0
+offset_bottom = 10.0
+
+[node name="IntentPos" type="Marker2D" parent="."]
+position = Vector2(-2, -268)
+
+[node name="CenterPos" type="Marker2D" parent="."]
+position = Vector2(-1, -95)

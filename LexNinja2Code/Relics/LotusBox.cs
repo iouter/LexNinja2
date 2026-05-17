@@ -1,0 +1,54 @@
+﻿using BaseLib.Utils;
+using LexNinja2.LexNinja2Code.Character;
+using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Powers;
+using LexNinja2.LexNinja2Code.Relics;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace LexNinja2.LexNinja2Code.Relics;
+
+
+[Pool(typeof(LexNinja2RelicPool))]
+public class LotusBox() : LexNinja2Relic
+{
+    public override RelicRarity Rarity =>
+        RelicRarity.Starter;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<Lexkela>()];
+    
+    public override async Task AfterRoomEntered(AbstractRoom room)
+    {
+        if (!(room is CombatRoom))
+            return;
+        Flash();
+        NinjaAudio.Play("res://LexNinja2/audio/LotusBox.mp3");
+        await PowerCmd.Apply<Pain>(new ThrowingPlayerChoiceContext(), Owner.Creature,1,null,null);
+        await PowerCmd.Apply<Lexkela>(new ThrowingPlayerChoiceContext(), Owner.Creature,2,null,null);
+    }
+
+    public override string PackedIconPath => "LotusBox.png".RelicImagePath();
+    protected override string PackedIconOutlinePath => "/outline/LotusBox.png".RelicImagePath();
+    protected override string BigIconPath => "LotusBox.png".BigRelicImagePath();
+    
+    public override RelicModel? GetUpgradeReplacement() => ModelDb.Relic<XiangPiaoPiao>();
+    
+    public override Task BeforeDeath(Creature creature)
+    {
+        if (creature != this.Owner.Creature)
+            return Task.CompletedTask;
+        NinjaAudio.Play("res://LexNinja2/audio/Cry.mp3");
+        return Task.CompletedTask;
+    }
+}

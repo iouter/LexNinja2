@@ -1,0 +1,39 @@
+﻿using BaseLib.Abstracts;
+using LexNinja2.LexNinja2Code.Cmd;
+using LexNinja2.LexNinja2Code.Extensions;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Factories;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+
+namespace LexNinja2.LexNinja2Code.Powers;
+
+public class ScarePower : CustomPowerModel
+{
+    public override PowerType Type => PowerType.Buff;
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override string CustomPackedIconPath => "ScarePower32.png".PowerImagePath();
+    public override string? CustomBigIconPath => "ScarePower84.png".BigPowerImagePath();
+    
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (player != Owner.Player)
+            return;
+        NinjaAudio.Play("res://LexNinja2/audio/吓我一跳释放忍术.mp3");
+        for (int i = 0; i < Amount; i++)
+        {
+            CardModel card = CardFactory.GetDistinctForCombat(Owner.Player, Owner.Player.Character.CardPool.GetUnlockedCards(Owner.Player.UnlockState, Owner.Player.RunState.CardMultiplayerConstraint).Where<CardModel>((Func<CardModel, bool>) (c => c.Tags.Contains(NinjaTags.Ninjutsu))), 1, Owner.Player.RunState.Rng.CombatCardGeneration).FirstOrDefault<CardModel>();
+            if (card == null)
+                return;
+            card.AddKeyword(NinjaKeyword.FreeNinjutsu);
+            // if (!(Owner.HasPower<WePeacePower>()&&card.Type==CardType.Attack))
+            // {
+                await CardCmd.AutoPlay(choiceContext,card.CreateDupe(),null);
+            // }
+        }
+    }
+}

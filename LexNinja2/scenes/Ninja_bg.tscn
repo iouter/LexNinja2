@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyv2oa881e2ih"]
+
+[ext_resource type="Texture2D" uid="uid://d2yr7hjhh3i4k" path="res://LexNinja2/images/charui/NinjaPortrait.png" id="1_gedwd"]
+
+[node name="NinjaBg" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 1600.0
+offset_bottom = 660.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1280, 600)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1280.0
+offset_top = -600.0
+offset_right = 640.0
+offset_bottom = 478.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.44705883, 0.49803922, 1, 1)
+
+[node name="Icon" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.000011
+offset_top = -4.0000024
+offset_right = 429.21948
+offset_bottom = 242.39014
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.82, 0.82)
+texture = ExtResource("1_gedwd")
+expand_mode = 1
+
+[node name="ash1" type="CPUParticles2D" parent="."]
+
+[node name="ash2" type="CPUParticles2D" parent="."]

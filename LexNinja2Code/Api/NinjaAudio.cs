@@ -4,8 +4,8 @@ namespace LexNinja2.LexNinja2Code.Api;
 
 public static class NinjaAudio
 {
-    private static readonly Dictionary<string, AudioStream> _cache = new();
-    private static readonly Dictionary<string, List<AudioStreamPlayer>> _activePlayers = new();
+    private static readonly Dictionary<string, AudioStream> Cache = new();
+    private static readonly Dictionary<string, List<AudioStreamPlayer>> ActivePlayers = new();
 
     // 基础播放（音量）
     public static void Play(string path, float volume = 1f)
@@ -27,11 +27,11 @@ public static class NinjaAudio
 
     private static void PlayInternal(string path, float volume, float pitch, bool loop)
     {
-        if (!_cache.TryGetValue(path, out var stream))
+        if (!Cache.TryGetValue(path, out var stream))
         {
             stream = GD.Load<AudioStream>(path);
             if (stream != null)
-                _cache[path] = stream;
+                Cache[path] = stream;
         }
 
         if (stream == null)
@@ -52,9 +52,9 @@ public static class NinjaAudio
         tree?.Root.AddChild(player);
 
         // 登记播放器以便停止
-        if (!_activePlayers.ContainsKey(path))
-            _activePlayers[path] = new List<AudioStreamPlayer>();
-        _activePlayers[path].Add(player);
+        if (!ActivePlayers.ContainsKey(path))
+            ActivePlayers[path] = [];
+        ActivePlayers[path].Add(player);
 
         if (loop)
         {
@@ -70,11 +70,11 @@ public static class NinjaAudio
             // 非循环：播放完毕后自动清理
             player.Finished += () =>
             {
-                if (_activePlayers.TryGetValue(path, out var list))
+                if (ActivePlayers.TryGetValue(path, out var list))
                 {
                     list.Remove(player);
                     if (list.Count == 0)
-                        _activePlayers.Remove(path);
+                        ActivePlayers.Remove(path);
                 }
                 player.QueueFree();
             };
@@ -95,7 +95,7 @@ public static class NinjaAudio
 
     private static void StopInternal(string path, float fadeDuration)
     {
-        if (!_activePlayers.TryGetValue(path, out var list))
+        if (!ActivePlayers.TryGetValue(path, out var list))
             return;
 
         foreach (var player in list.ToList())
@@ -105,7 +105,7 @@ public static class NinjaAudio
 
             if (fadeDuration > 0f)
             {
-                Tween tween = player.CreateTween();
+                var tween = player.CreateTween();
                 tween.TweenMethod(
                     Callable.From<float>(v => player.VolumeDb = v),
                     player.VolumeDb,
@@ -126,13 +126,13 @@ public static class NinjaAudio
                 player.QueueFree();
             }
         }
-        _activePlayers.Remove(path);
+        ActivePlayers.Remove(path);
     }
 
     public static void StopAll(float fadeDuration = 0f)
     {
         // 先取得所有正在播放的路径，避免遍历时修改字典
-        var paths = _activePlayers.Keys.ToList();
+        var paths = ActivePlayers.Keys.ToList();
         foreach (var path in paths)
         {
             Stop(path, fadeDuration);

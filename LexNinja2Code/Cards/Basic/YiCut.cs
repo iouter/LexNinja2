@@ -1,4 +1,5 @@
 ﻿using BaseLib.Abstracts;
+using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
@@ -28,72 +29,20 @@ public class YiCut()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/YiCut.mp3");
-        decimal Renshu = DynamicVars["Renshu"].BaseValue;
-        Lexkela kela = Owner.Creature.GetPower<Lexkela>();
-        if (Ninjutsu())
+        if (Ninjutsu(choiceContext))
         {
-            await DamageCmd
-                .Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this)
-                .TargetingAllOpponents(CombatState)
-                .WithHitFx("vfx/vfx_giant_horizontal_slash", tmpSfx: "slash_attack.mp3")
+            await CommonActions
+                .CardAttack(this, play, vfx: "vfx/vfx_giant_horizontal_slash", tmpSfx: "slash_attack.mp3")
                 .Execute(choiceContext);
         }
-        await PowerCmd.Apply<VulnerablePower>(
-            new ThrowingPlayerChoiceContext(),
-            CombatState.HittableEnemies,
-            DynamicVars.Vulnerable.BaseValue,
-            Owner.Creature,
-            this
-        );
+        await CommonActionsExtensions.Apply<VulnerablePower>(choiceContext, this, play);
     }
-
-    private Boolean Ninjutsu()
-    {
-        if (Owner.Creature.GetPower<FreeNinjutsuPower>() != null)
-        {
-            return true;
-        }
-        if (Owner.Creature.GetPower<Lexkela>() != null)
-        {
-            if (Owner.Creature.GetPower<Lexkela>().Amount >= DynamicVars["Renshu"].BaseValue)
-            {
-                PowerCmd.Apply<Lexkela>(
-                    new ThrowingPlayerChoiceContext(),
-                    Owner.Creature,
-                    -DynamicVars["Renshu"].BaseValue,
-                    Owner.Creature,
-                    this
-                );
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Boolean CanCastNinjutsu()
-    {
-        if (Owner.Creature.GetPower<FreeNinjutsuPower>() != null)
-        {
-            return true;
-        }
-
-        if (Owner.Creature.GetPower<Lexkela>() != null)
-        {
-            if (Owner.Creature.GetPower<Lexkela>().Amount >= DynamicVars["Renshu"].BaseValue)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+    
     protected override bool ShouldGlowGoldInternal => CanCastNinjutsu();
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Renshu"].UpgradeValueBy(-1);
+        DynamicVars.Ninjutsu().UpgradeValueBy(-1);
     }
 
     public override string CustomPortraitPath => "YiCut_p.png".BigCardImagePath();

@@ -136,7 +136,7 @@
   "LEXNINJA2-LEECH_FRIEND.title": "好友眼蛤十字吸",
 
   "LEXNINJA2-BECOME_NONG.selectionScreenPrompt": "选择一张牌，将其一张[gold]复制品[/gold]加入你的卡组。",
-  "LEXNINJA2-BECOME_NONG.description": "选择一张牌，在战斗结束时，将一张复制品加入你的[gold]牌组[/gold]。",
+  "LEXNINJA2-BECOME_NONG.description": "选择一张牌，在战斗结束时，将{BecomeNongPower:diff()}}张复制品加入你的[gold]牌组[/gold]。",
   "LEXNINJA2-BECOME_NONG.title": "而我要现在成为农神",
 
   "LEXNINJA2-DISAPPOINTED_AFTER_BOCCHI.description": "你打出的下一张攻击牌将会造成三倍伤害。\n你打出下一张攻击牌后，获得1层[gold]虚弱[/gold]。",
@@ -255,7 +255,7 @@
   "LEXNINJA2-SOUTH_CROSS_SEAL.description": "使敌人获得50点[gold]格挡[/gold]并[gold]击晕[/gold]该敌人。\n[gold]忍术[/gold]{Renshu:diff()}：效果持续{SealPower:diff()}个回合，直到受到未被[gold]格挡[/gold]的伤害。",
   "LEXNINJA2-SOUTH_CROSS_SEAL.title": "南十字深深封印",
 
-  "LEXNINJA2-BLACK_SNAKE_HEART.description": "打出与上一张牌同名的卡牌时，将其[gold]消耗[/gold]并获得一层[gold]无实体[/gold]。",
+  "LEXNINJA2-BLACK_SNAKE_HEART.description": "打出与上一张牌同名的卡牌时，将其[gold]消耗[/gold]并获得{BlackSnakeHeartPower:diff()}层[gold]无实体[/gold]。",
   "LEXNINJA2-BLACK_SNAKE_HEART.title": "黑户蛇心",
 
   "LEXNINJA2-LE_LI_SU.description": "抽{Cards:diff()}张牌。",

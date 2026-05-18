@@ -1,4 +1,5 @@
-﻿using LexNinja2.LexNinja2Code.Api;
+﻿using BaseLib.Utils;
+using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -17,11 +18,7 @@ public class StrikeNinja()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/Hia.mp3");
-        await DamageCmd
-            .Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
-            .Targeting(play.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
+        await CommonActions.CardAttack(this, play, vfx: "vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")
             .Execute(choiceContext);
     }
 

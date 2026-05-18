@@ -73,7 +73,7 @@
   "LEXNINJA2-GAMMA_BLADE.description": "对所有敌人造成{Damage:diff()}点伤害2次。\n给予所有敌人{VulnerablePower:diff()}层[gold]易伤[/gold]。\n给予所有敌人{WeakPower:diff()}层[gold]虚弱[/gold]。",
   "LEXNINJA2-GAMMA_BLADE.title": "伽马伽马刀",
 
-  "LEXNINJA2-MONK_HAND.description": "造成你当前格挡值的伤害。\n[gold]忍术[/gold]{Renshu:diff()}：先获得{Block:diff()}点[gold]格挡[/gold]。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害|}",
+  "LEXNINJA2-MONK_HAND.description": "造成你当前格挡值的伤害。\n[gold]忍术[/gold]{Renshu:diff()}：先获得{Block:diff()}点[gold]格挡[/gold]。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害）|}",
   "LEXNINJA2-MONK_HAND.title": "罗汉手",
 
   "LEXNINJA2-HOLY_LITTLE_STORM.description": "对随机敌人造成{Damage:diff()}点伤害。\n[gold]忍术[/gold]X：额外随机对敌人造成{Damage:diff()}点伤害X次。",
@@ -104,7 +104,7 @@
   "LEXNINJA2-MUMMY_MUMMY.description": "减少[gold]蕾克拉[/gold]时，获得{Power:diff()}点[gold]格挡[/gold]。",
   "LEXNINJA2-MUMMY_MUMMY.title": "啊木乃伊啊木乃伊",
 
-  "LEXNINJA2-WATER_SAND_STORM.description": "对所有敌人造成等同于你[gold]沙壁[/gold]层数的伤害。\n[gold]忍术[/gold]{Renshu:diff()}：先获得{SandWall:diff()}层[gold]沙壁[/gold]。",
+  "LEXNINJA2-WATER_SAND_STORM.description": "对所有敌人造成等同于你[gold]沙壁[/gold]层数的伤害。\n[gold]忍术[/gold]{Renshu:diff()}：先获得{SandWall:diff()}层[gold]沙壁[/gold]。{InCombat:\n（造成{CalculatedDamage:diff()}点伤害）|}",
   "LEXNINJA2-WATER_SAND_STORM.title": "水之砂暴",
 
   "LEXNINJA2-GO_BACK_HANDS.description": "将你[gold]弃牌堆[/gold]中的所有[gold]手系忍术[/gold]放入你的手牌。\n[gold]忍术[/gold]{Renshu:diff()}：将这些牌的耗能降为0{energyPrefix:energyIcons(1)}，直到你下一次将他们打出。",
@@ -163,7 +163,7 @@
   "LEXNINJA2-PLAY_HEARTH_STONE.description": "获得{Block:diff()}点[gold]格挡[/gold]。",
   "LEXNINJA2-PLAY_HEARTH_STONE.title": "让我幸福玩炉石",
 
-  "LEXNINJA2-WILD_SNAKE_GOD.description": "在你的回合开始时，额外抽2张牌并随机化你[gold]手牌[/gold]中所有牌的耗能。",
+  "LEXNINJA2-WILD_SNAKE_GOD.description": "在你的回合开始时，额外抽{WildSnakeGodPower:diff()}张牌并随机化你[gold]手牌[/gold]中所有牌的耗能。",
   "LEXNINJA2-WILD_SNAKE_GOD.title": "草野蛇神",
 
   "LEXNINJA2-LAN_BLADE.description": "造成{Damage:diff()}点伤害。（不会触发[gold]岚刀一直切[/gold]。）",

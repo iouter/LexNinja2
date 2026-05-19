@@ -7,10 +7,19 @@ public static class NinjaAnim
 {
     public static async Task TriggerCastAnim(CardModel card)
     {
-        await CreatureCmd.TriggerAnim(
-            card.Owner.Creature,
-            "Cast",
-            card.Owner.Character.CastAnimDelay
-        );
+        try
+        {
+            //TODO: 等待baselib更新
+            await CreatureCmd.TriggerAnim(
+                card.Owner.Creature,
+                "Cast",
+                card.Owner.Character.CastAnimDelay
+            );
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error(e.Message);
+            throw;
+        }
     }
 }

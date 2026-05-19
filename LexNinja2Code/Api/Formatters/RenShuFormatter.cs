@@ -13,7 +13,6 @@ public class RenShuFormatter : IAutoRegisterFormatSpecifier
 {
     public bool TryEvaluateFormat(IFormattingInfo formattingInfo)
     {
-        GD.Print(formattingInfo.CurrentValue);
         if (formattingInfo.CurrentValue is not NinjutsuVar renShu)
         {
             return false;

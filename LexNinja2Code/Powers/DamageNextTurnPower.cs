@@ -1,4 +1,5 @@
 ﻿using BaseLib.Abstracts;
+using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -30,7 +31,7 @@ public class DamageNextTurnPower : CustomPowerModel
         if (player != Owner.Player)
             return;
         Flash();
-        await CreatureCmd.TriggerAnim(Owner, "Attack", 0.5F);
+        await NinjaAnim.TriggerAttackAnim(Owner, 0.5f);
         await Cmd.CustomScaledWait(0.2f, 0.4f);
         foreach (var hittableEnemy in CombatState.HittableEnemies)
         {

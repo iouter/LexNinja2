@@ -26,6 +26,8 @@ public class HolyLittleStorm()
     protected override HashSet<CardTag> CanonicalTags => [NinjaTags.Ninjutsu, NinjaTags.Holy];
     protected override bool ShouldGlowGoldInternal => CanCastNinjutsuX();
 
+    protected override bool HasLexKelaCostX => true;
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/HolyLittleStorm.mp3");

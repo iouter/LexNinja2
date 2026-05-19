@@ -18,14 +18,12 @@ public class CountlessVampireDog()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        var original = CommonActions
-            .SelectSingleCard(
-                this,
-                CardSelectorPrefs.TransformSelectionPrompt,
-                choiceContext,
-                PileType.Hand
-            )
-            .Result;
+        var original = await CommonActions.SelectSingleCard(
+            this,
+            CardSelectorPrefs.TransformSelectionPrompt,
+            choiceContext,
+            PileType.Hand
+        );
         if (original == null)
         {
             return;

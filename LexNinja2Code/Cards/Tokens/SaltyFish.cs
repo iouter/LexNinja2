@@ -18,9 +18,12 @@ public class SaltyFish() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, Ta
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        var card = CommonActions
-            .SelectSingleCard(this, SelectionScreenPrompt, choiceContext, PileType.Discard)
-            .Result;
+        var card = await CommonActions.SelectSingleCard(
+            this,
+            SelectionScreenPrompt,
+            choiceContext,
+            PileType.Discard
+        );
         if (card == null)
             return;
         NinjaAudio.Play("res://LexNinja2/audio/SaltyFish.mp3");

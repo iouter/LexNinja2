@@ -28,9 +28,12 @@ public class ShadowBlade()
             .CardAttack(this, play, vfx: "vfx/vfx_attack_slash", tmpSfx: "heavy_attack.mp3")
             .Execute(choiceContext);
         await CommonActionsExtensions.Apply<VulnerablePower>(choiceContext, this, play);
-        var card = CommonActions
-            .SelectSingleCard(this, SelectionScreenPrompt, choiceContext, PileType.Hand)
-            .Result;
+        var card = await CommonActions.SelectSingleCard(
+            this,
+            SelectionScreenPrompt,
+            choiceContext,
+            PileType.Hand
+        );
         if (card == null)
         {
             return;

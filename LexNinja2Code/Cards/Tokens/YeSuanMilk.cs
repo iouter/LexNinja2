@@ -24,7 +24,7 @@ public class YeSuanMilk() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, T
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Ninjutsu().UpgradeValueBy(2);
+        DynamicVars.LexKela().UpgradeValueBy(2);
     }
 
     public override string CustomPortraitPath => $"YeSuanMilk_p.png".BigCardImagePath();

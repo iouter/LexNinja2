@@ -23,7 +23,7 @@ public class RenShuFormatter : IAutoRegisterFormatSpecifier
             owner is { IsMutable: true } and CardModel card
             && (
                 card.Keywords.Contains(NinjaKeyword.FreeNinjutsu)
-                || card.Owner.HasPower<FreeNinjutsuPower>()
+                || card.Owner?.HasPower<FreeNinjutsuPower>() == true
             )
         )
         {

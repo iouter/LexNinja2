@@ -24,7 +24,7 @@ public class ShakeShakeHands()
     {
         NinjaAudio.Play("res://LexNinja2/audio/ShakeShakeHand.mp3");
         await CommonActions.ApplySelf<WeakPower>(choiceContext, this);
-        await CommonActionsExtensions.Apply<WeakPower>(choiceContext, this, play);
+        await CommonActions.Apply<WeakPower>(choiceContext, this, play);
         await NinjaHelper.AddLexKela(choiceContext, this);
     }
 

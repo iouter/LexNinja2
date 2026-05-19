@@ -22,8 +22,8 @@ public class Lizhi() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, Target
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/Lizhi.mp3");
-        await CommonActionsExtensions.Apply<WeakPower>(choiceContext, this, play);
-        await CommonActionsExtensions.Apply<VulnerablePower>(choiceContext, this, play);
+        await CommonActions.Apply<WeakPower>(choiceContext, this, play);
+        await CommonActions.Apply<VulnerablePower>(choiceContext, this, play);
     }
 
     protected override void OnUpgrade()

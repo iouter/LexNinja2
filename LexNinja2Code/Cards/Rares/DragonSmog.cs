@@ -37,7 +37,14 @@ public class DragonSmog() : LexNinja2Card(3, CardType.Skill, CardRarity.Rare, Ta
             if (enemy.HasPower<ArtifactPower>())
                 await PowerCmd.Remove<ArtifactPower>(enemy);
         }
-        await CommonActionsExtensions.ApplyToAllEnemies<VulnerablePower>(choiceContext, this);
+
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext,
+            CombatState.HittableEnemies,
+            DynamicVars.Vulnerable.BaseValue,
+            Owner.Creature,
+            this
+        );
     }
 
     protected override void OnUpgrade()

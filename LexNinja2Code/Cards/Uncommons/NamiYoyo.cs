@@ -1,4 +1,5 @@
-﻿using LexNinja2.LexNinja2Code.Api;
+﻿using BaseLib.Utils;
+using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -26,7 +27,7 @@ public class NamiYoyo() : LexNinja2Card(4, CardType.Skill, CardRarity.Uncommon, 
         instance?.CombatVfxContainer.AddChildSafely(
             NBolasVfx.Create(Owner.Creature, play.Target!)!
         );
-        await CommonActionsExtensions.Apply<PoisonPower>(choiceContext, this, play);
+        await CommonActions.Apply<PoisonPower>(choiceContext, this, play);
         await Cmd.Wait(0.25f);
 
         var poisonPower = play.Target!.GetPower<PoisonPower>();

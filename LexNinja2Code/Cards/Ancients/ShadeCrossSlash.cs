@@ -58,7 +58,7 @@ public class ShadeCrossSlash()
                 )
                 .Execute(choiceContext);
         }
-        await CommonActionsExtensions.Apply<VulnerablePower>(choiceContext, this, play);
+        await CommonActions.Apply<VulnerablePower>(choiceContext, this, play);
     }
 
     protected override bool ShouldGlowGoldInternal => CanCastNinjutsu();

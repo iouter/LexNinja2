@@ -23,7 +23,7 @@ public class DarknessShoryuKen()
     {
         NinjaAudio.Play("res://LexNinja2/audio/DarknessShoryuKen.mp3");
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        await CommonActionsExtensions.Apply<WeakPower>(choiceContext, this, play);
+        await CommonActions.Apply<WeakPower>(choiceContext, this, play);
         if (!Ninjutsu(choiceContext))
         {
             return;

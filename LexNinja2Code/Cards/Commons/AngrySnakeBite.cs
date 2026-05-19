@@ -1,4 +1,5 @@
-﻿using LexNinja2.LexNinja2Code.Api;
+﻿using BaseLib.Utils;
+using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
@@ -32,7 +33,7 @@ public class AngrySnakeBite()
         }
         NinjaAudio.Play("res://LexNinja2/audio/AngrySnakeBite.mp3");
         VfxCmd.PlayOnCreatureCenter(play.Target!, "vfx/vfx_bite");
-        await CommonActionsExtensions.Apply<PoisonPower>(choiceContext, this, play);
+        await CommonActions.Apply<PoisonPower>(choiceContext, this, play);
     }
 
     protected override void OnUpgrade()

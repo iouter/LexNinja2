@@ -1,4 +1,5 @@
 ﻿using BaseLib.Extensions;
+using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
@@ -28,7 +29,7 @@ public class SouthCrossSeal()
         {
             return;
         }
-        await CommonActionsExtensions.Apply<SealPower>(choiceContext, this, play);
+        await CommonActions.Apply<SealPower>(choiceContext, this, play);
     }
 
     protected override void OnUpgrade()

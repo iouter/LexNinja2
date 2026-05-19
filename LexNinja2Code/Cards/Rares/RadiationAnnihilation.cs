@@ -1,4 +1,5 @@
-﻿using LexNinja2.LexNinja2Code.Api;
+﻿using BaseLib.Utils;
+using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -21,7 +22,7 @@ public class RadiationAnnihilation()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/RadiationAnnihilation.mp3");
-        await CommonActionsExtensions.Apply<Radiation>(choiceContext, this, play);
+        await CommonActions.Apply<Radiation>(choiceContext, this, play);
     }
 
     protected override void OnUpgrade()

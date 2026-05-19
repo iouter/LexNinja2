@@ -1,6 +1,5 @@
 using BaseLib.Abstracts;
 using BaseLib.Extensions;
-using Godot;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Powers;
 using MegaCrit.Sts2.Core.Models;

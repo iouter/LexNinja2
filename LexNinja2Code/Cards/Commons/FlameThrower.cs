@@ -40,12 +40,12 @@ public class FlameThrower()
         var instance = NCombatRoom.Instance;
         instance?.CombatVfxContainer.AddChildSafely(NGroundFireVfx.Create(play.Target!)!);
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        await CommonActionsExtensions.Apply<WeakPower>(choiceContext, this, play);
+        await CommonActions.Apply<WeakPower>(choiceContext, this, play);
         if (!Ninjutsu(choiceContext))
         {
             return;
         }
-        await CommonActionsExtensions.Apply<PoisonPower>(choiceContext, this, play);
+        await CommonActions.Apply<PoisonPower>(choiceContext, this, play);
     }
 
     protected override void OnUpgrade()

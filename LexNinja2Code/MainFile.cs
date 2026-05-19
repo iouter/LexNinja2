@@ -3,10 +3,8 @@ using BaseLib.Utils;
 using Godot;
 using Godot.Bridge;
 using HarmonyLib;
-using LexNinja2.LexNinja2Code.Api.Formatters;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
-using SmartFormat;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace LexNinja2.LexNinja2Code;

@@ -8,15 +8,7 @@ public static class NinjaAnim
 {
     public static async Task TriggerAnim(Creature creature, string animName, float delay)
     {
-        try
-        {
-            //TODO: 等待baselib更新
-            await CreatureCmd.TriggerAnim(creature, animName, delay);
-        }
-        catch (Exception e)
-        {
-            MainFile.Logger.Error(e.Message);
-        }
+        await CreatureCmd.TriggerAnim(creature, animName, delay);
     }
 
     public static async Task TriggerCastAnim(Creature creature, float delay)

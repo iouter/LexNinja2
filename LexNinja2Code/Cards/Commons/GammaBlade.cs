@@ -38,8 +38,8 @@ public class GammaBlade()
         await CommonActions
             .CardAttack(this, play, hitCount: 2, vfx: "vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await CommonActionsExtensions.Apply<WeakPower>(choiceContext, this, play);
-        await CommonActionsExtensions.Apply<VulnerablePower>(choiceContext, this, play);
+        await CommonActions.Apply<WeakPower>(choiceContext, this, play);
+        await CommonActions.Apply<VulnerablePower>(choiceContext, this, play);
     }
 
     protected override void OnUpgrade()

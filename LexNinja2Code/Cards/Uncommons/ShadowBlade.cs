@@ -27,7 +27,7 @@ public class ShadowBlade()
         await CommonActions
             .CardAttack(this, play, vfx: "vfx/vfx_attack_slash", tmpSfx: "heavy_attack.mp3")
             .Execute(choiceContext);
-        await CommonActionsExtensions.Apply<VulnerablePower>(choiceContext, this, play);
+        await CommonActions.Apply<VulnerablePower>(choiceContext, this, play);
         var card = await CommonActions.SelectSingleCard(
             this,
             SelectionScreenPrompt,

@@ -16,7 +16,6 @@ public static class NinjaAnim
         catch (Exception e)
         {
             MainFile.Logger.Error(e.Message);
-            throw;
         }
     }
 

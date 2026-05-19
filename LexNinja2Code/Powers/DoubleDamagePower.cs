@@ -20,7 +20,7 @@ public class DoubleDamagePower : CustomPowerModel
     public override string CustomPackedIconPath => "DoubleDamagePower.png".PowerImagePath();
     public override string? CustomBigIconPath => "DoubleDamagePower.png".BigPowerImagePath();
 
-    protected override object InitInternalData() => (object)new Data();
+    protected override object InitInternalData() => new Data();
 
     public override Task BeforeAttack(AttackCommand command)
     {

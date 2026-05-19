@@ -25,22 +25,22 @@ public class DoubleDamagePower : CustomPowerModel
     public override Task BeforeAttack(AttackCommand command)
     {
         if (
-            !(command.ModelSource is CardModel modelSource)
+            command.ModelSource is not CardModel modelSource
             || modelSource.Owner.Creature != this.Owner
             || modelSource.Type != CardType.Attack
             || !command.DamageProps.IsPoweredAttack()
         )
             return Task.CompletedTask;
-        Data internalData = this.GetInternalData<Data>();
-        if (internalData.commandToModify != null)
+        var internalData = GetInternalData<Data>();
+        if (internalData.CommandToModify != null)
             return Task.CompletedTask;
-        internalData.commandToModify = command;
+        internalData.CommandToModify = command;
         return Task.CompletedTask;
     }
 
-    public override Decimal ModifyDamageMultiplicative(
+    public override decimal ModifyDamageMultiplicative(
         Creature? target,
-        Decimal amount,
+        decimal amount,
         ValueProp props,
         Creature? dealer,
         CardModel? cardSource
@@ -52,26 +52,26 @@ public class DoubleDamagePower : CustomPowerModel
             || !props.IsPoweredAttack()
         )
             return 1M;
-        Data internalData = this.GetInternalData<Data>();
+        var internalData = GetInternalData<Data>();
         return
-            internalData.commandToModify != null
-            && cardSource != internalData.commandToModify.ModelSource
+            internalData.CommandToModify != null
+            && cardSource != internalData.CommandToModify.ModelSource
             ? 1
             : 2;
     }
 
     public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
     {
-        DoubleDamagePower power = this;
-        Data internalData = power.GetInternalData<Data>();
-        if (command != internalData.commandToModify)
+        var power = this;
+        var internalData = power.GetInternalData<Data>();
+        if (command != internalData.CommandToModify)
             return;
-        internalData.commandToModify = (AttackCommand)null;
-        await PowerCmd.Remove((PowerModel)power);
+        internalData.CommandToModify = null;
+        await PowerCmd.Remove(power);
     }
 
     private class Data
     {
-        public AttackCommand? commandToModify;
+        public AttackCommand? CommandToModify;
     }
 }

@@ -48,7 +48,7 @@ public class BlackSnakeHeartPower : CustomPowerModel
                 null
             );
         }
-        CardToStore(lastCard);
+        CardToStore(currentCard);
     }
 
     private void CardToStore(CardModel card)

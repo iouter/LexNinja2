@@ -1,5 +1,5 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -37,7 +37,7 @@ public class WePeacePower : CustomPowerModel
         if (side != Owner.Side)
             return;
         Flash();
-        await PowerCmd.Remove((PowerModel)this);
+        await PowerCmd.Remove(this);
     }
 
     // public override Task AfterRemoved(Creature oldOwner)
@@ -49,6 +49,6 @@ public class WePeacePower : CustomPowerModel
 
     public override bool ShouldPlay(CardModel card, AutoPlayType _)
     {
-        return card.Owner != this.Owner.Player || card.Type != CardType.Attack;
+        return card.Owner != Owner.Player || card.Type != CardType.Attack;
     }
 }

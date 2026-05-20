@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -20,7 +21,7 @@ public class SealPower : CustomPowerModel
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-        if (side != this.Owner.Side)
+        if (side != Owner.Side)
         {
             return;
         }
@@ -40,7 +41,7 @@ public class SealPower : CustomPowerModel
         CardModel? cardSource
     )
     {
-        if (target == base.Owner && result.UnblockedDamage != 0)
+        if (target == Owner && result.UnblockedDamage != 0)
         {
             // Creature creature = dealer;
             // if (dealer.Monster is Osty)

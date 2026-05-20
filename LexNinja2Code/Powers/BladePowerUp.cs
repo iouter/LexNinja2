@@ -1,6 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -22,16 +22,16 @@ public class BladePowerUp : CustomPowerModel
     public override string CustomPackedIconPath => "BladePowerUp32.png".PowerImagePath();
     public override string? CustomBigIconPath => "BladePowerUp84.png".BigPowerImagePath();
 
-    public override Decimal ModifyDamageAdditive(
+    public override decimal ModifyDamageAdditive(
         Creature? target,
-        Decimal amount,
+        decimal amount,
         ValueProp props,
         Creature? dealer,
         CardModel? cardSource
     )
     {
         return
-            this.Owner != dealer
+            Owner != dealer
             || !props.IsPoweredAttack()
             || cardSource == null
             || (
@@ -39,6 +39,6 @@ public class BladePowerUp : CustomPowerModel
                 && !cardSource.Tags.Contains(CardTag.Shiv)
             )
             ? 0M
-            : (Decimal)this.Amount;
+            : Amount;
     }
 }

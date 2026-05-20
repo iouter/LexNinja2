@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -20,18 +21,18 @@ public class Pain : CustomPowerModel
     public override string CustomPackedIconPath => "PainPower.png".PowerImagePath();
     public override string? CustomBigIconPath => "PainPower.png".BigPowerImagePath();
 
-    private int flag = 0;
+    private int flag = 0; // 干啥用的
 
     public override async Task BeforeApplied(
         Creature target,
-        Decimal amount,
+        decimal amount,
         Creature? applier,
         CardModel? cardSource
     )
     {
-        if (this._shouldIgnoreNextInstance)
+        if (_shouldIgnoreNextInstance)
         {
-            this._shouldIgnoreNextInstance = false;
+            _shouldIgnoreNextInstance = false;
         }
         else
         {
@@ -42,18 +43,12 @@ public class Pain : CustomPowerModel
     public override async Task AfterPowerAmountChanged(
         PlayerChoiceContext choiceContext,
         PowerModel power,
-        Decimal amount,
+        decimal amount,
         Creature? applier,
         CardModel? cardSource
     )
     {
-        Lexkela lexkela = power as Lexkela;
-        if (
-            Owner.GetPower<Lexkela>() != null
-            && power == lexkela
-            && amount < 0
-            && power.Owner == Owner
-        )
+        if (power is Lexkela && amount < 0 && power.Owner == Owner)
         {
             flag = 1;
         }
@@ -71,11 +66,11 @@ public class Pain : CustomPowerModel
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-        if (side != this.Owner.Side)
+        if (side != Owner.Side)
             return;
         if (flag == 1)
             return;
-        await PowerCmd.Apply<Lexkela>(new ThrowingPlayerChoiceContext(), Owner, 1, null, null);
+        await PowerCmd.Apply<Lexkela>(choiceContext, Owner, 1, null, null);
     }
 
     public override async Task AfterDamageReceived(
@@ -87,11 +82,9 @@ public class Pain : CustomPowerModel
         CardModel? cardSource
     )
     {
-        if (target == base.Owner && result.UnblockedDamage > 0)
-        {
-            Flash();
-            NinjaAudio.Play("res://LexNinja2/audio/Pain.mp3");
-        }
-        return;
+        if (target != Owner || result.UnblockedDamage <= 0)
+            return;
+        Flash();
+        NinjaAudio.Play("res://LexNinja2/audio/Pain.mp3");
     }
 }

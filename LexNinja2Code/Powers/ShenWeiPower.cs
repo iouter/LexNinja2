@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -30,13 +31,7 @@ public class ShenWeiPower : CustomPowerModel
         }
         if (cardPlay.Card.Type == CardType.Attack)
         {
-            await PowerCmd.Apply<IntangiblePower>(
-                new ThrowingPlayerChoiceContext(),
-                Owner,
-                -1,
-                null,
-                null
-            );
+            await PowerCmd.Apply<IntangiblePower>(context, Owner, -1, null, null);
         }
     }
 

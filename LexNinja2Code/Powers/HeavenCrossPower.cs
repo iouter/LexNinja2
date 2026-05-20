@@ -1,6 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -23,13 +23,7 @@ public class HeavenCrossPower : CustomPowerModel
     {
         if (cardPlay.Card.Tags.Contains(NinjaTags.Ninjutsu) && cardPlay.Card.Owner == Owner.Player)
         {
-            await PowerCmd.Apply<Lexkela>(
-                new ThrowingPlayerChoiceContext(),
-                Owner,
-                Amount,
-                null,
-                null
-            );
+            await PowerCmd.Apply<Lexkela>(context, Owner, Amount, null, null);
         }
     }
 }

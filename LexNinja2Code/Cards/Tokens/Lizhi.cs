@@ -1,15 +1,15 @@
 ﻿using BaseLib.Extensions;
 using BaseLib.Utils;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
-using MegaCrit.Sts2.Core.Commands;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
-namespace LexNinja2.LexNinja2Code.Cards;
+namespace LexNinja2.LexNinja2Code.Cards.Tokens;
 
 [Pool(typeof(TokenCardPool))]
 public class Lizhi() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
@@ -23,20 +23,8 @@ public class Lizhi() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, Target
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/Lizhi.mp3");
-        await PowerCmd.Apply<WeakPower>(
-            new ThrowingPlayerChoiceContext(),
-            play.Target,
-            DynamicVars.Weak.BaseValue,
-            Owner.Creature,
-            this
-        );
-        await PowerCmd.Apply<VulnerablePower>(
-            new ThrowingPlayerChoiceContext(),
-            play.Target,
-            DynamicVars.Weak.BaseValue,
-            Owner.Creature,
-            this
-        );
+        await CommonActions.Apply<WeakPower>(choiceContext, this, play);
+        await CommonActions.Apply<VulnerablePower>(choiceContext, this, play);
     }
 
     protected override void OnUpgrade()

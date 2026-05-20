@@ -1,6 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -15,7 +15,7 @@ public class GetAllHandsPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    protected override object InitInternalData() => (object)new Data();
+    protected override object InitInternalData() => new Data();
 
     public override string CustomPackedIconPath => "GetAllHandsPower32.png".PowerImagePath();
     public override string? CustomBigIconPath => "GetAllHandsPower84.png".BigPowerImagePath();
@@ -23,7 +23,7 @@ public class GetAllHandsPower : CustomPowerModel
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (
-            GetInternalData<Data>().amountsForPlayedCards.Remove(cardPlay.Card, out var value)
+            GetInternalData<Data>().AmountsForPlayedCards.Remove(cardPlay.Card, out _)
             && cardPlay.Card.Owner == Owner.Player
         )
         {
@@ -39,13 +39,13 @@ public class GetAllHandsPower : CustomPowerModel
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
-        GetInternalData<Data>().amountsForPlayedCards.Add(cardPlay.Card, base.Amount);
+        GetInternalData<Data>().AmountsForPlayedCards.Add(cardPlay.Card, base.Amount);
         return Task.CompletedTask;
     }
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-        if (side != this.Owner.Side)
+        if (side != Owner.Side)
         {
             return;
         }
@@ -55,7 +55,6 @@ public class GetAllHandsPower : CustomPowerModel
 
     private class Data
     {
-        public readonly Dictionary<CardModel, int> amountsForPlayedCards =
-            new Dictionary<CardModel, int>();
+        public readonly Dictionary<CardModel, int> AmountsForPlayedCards = new();
     }
 }

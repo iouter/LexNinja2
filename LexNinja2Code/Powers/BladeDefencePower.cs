@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -42,7 +43,7 @@ public class BladeDefencePower : CustomPowerModel
         )
             return;
         NinjaAudio.Play("res://LexNinja2/audio/BladeDefence.mp3");
-        await PowerCmd.Apply<Lexkela>(new ThrowingPlayerChoiceContext(), Owner, 1, Owner, null);
+        await PowerCmd.Apply<Lexkela>(choiceContext, Owner, 1, Owner, null);
     }
 
     public override async Task AfterDamageGiven(

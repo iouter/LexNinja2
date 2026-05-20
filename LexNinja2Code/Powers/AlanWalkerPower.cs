@@ -1,8 +1,8 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
@@ -39,31 +39,26 @@ public class AlanWalkerPower : CustomPowerModel
         if (cardPlay.Card.Owner == Owner.Player)
         {
             Flash();
-            NCombatRoom instance = NCombatRoom.Instance;
-            List<Creature> enemies = base
-                .CombatState.HittableEnemies.Where((Creature e) => e.IsAlive)
-                .ToList();
-            if (enemies.LastOrDefault() == null)
+            var enemies = CombatState.HittableEnemies.Where(e => e.IsAlive).ToList();
+            var target = enemies.LastOrDefault();
+            if (target == null)
             {
                 return;
             }
-            NHyperbeamVfx nHyperbeamVfx = NHyperbeamVfx.Create(base.Owner, enemies.LastOrDefault());
+            var nHyperbeamVfx = NHyperbeamVfx.Create(base.Owner, target);
             if (nHyperbeamVfx != null)
             {
                 NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(nHyperbeamVfx);
-                await MegaCrit.Sts2.Core.Commands.Cmd.Wait(0.5f);
+                await Cmd.Wait(0.5f);
             }
-            foreach (Creature item in enemies)
+            foreach (var enemy in enemies)
             {
-                NHyperbeamImpactVfx nHyperbeamImpactVfx = NHyperbeamImpactVfx.Create(
-                    base.Owner,
-                    item
-                );
+                var nHyperbeamImpactVfx = NHyperbeamImpactVfx.Create(Owner, enemy);
                 if (nHyperbeamImpactVfx != null)
                 {
                     NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(nHyperbeamImpactVfx);
                 }
-                await CreatureCmd.Damage(context, item, 6, ValueProp.Unpowered, null, null);
+                await CreatureCmd.Damage(context, enemy, 6, ValueProp.Unpowered, null, null);
             }
             // foreach (Creature enemy in CombatState.HittableEnemies)
             // {

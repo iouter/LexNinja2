@@ -1,7 +1,8 @@
 ﻿using BaseLib.Utils;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
+using LexNinja2.LexNinja2Code.Api.Relics;
 using LexNinja2.LexNinja2Code.Character;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Relics;
@@ -29,12 +30,7 @@ public class ReaperHand() : LexNinja2Relic
         if (cardPlay.Card.Keywords.Contains(NinjaKeyword.Hand))
         {
             NinjaAudio.Play("res://LexNinja2/audio/DeathHand.mp3");
-            await OstyCmd.Summon(
-                new ThrowingPlayerChoiceContext(),
-                Owner,
-                DynamicVars.Summon.BaseValue,
-                this
-            );
+            await OstyCmd.Summon(context, Owner, DynamicVars.Summon.BaseValue, this);
         }
     }
 }

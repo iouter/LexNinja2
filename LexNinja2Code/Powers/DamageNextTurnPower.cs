@@ -1,14 +1,12 @@
 ﻿using BaseLib.Abstracts;
-using Godot;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -32,24 +30,21 @@ public class DamageNextTurnPower : CustomPowerModel
     {
         if (player != Owner.Player)
             return;
-        this.Flash();
-        await CreatureCmd.TriggerAnim(Owner, "Attack", 0.5F);
-        await MegaCrit.Sts2.Core.Commands.Cmd.CustomScaledWait(0.2f, 0.4f);
-        foreach (Creature hittableEnemy in (IEnumerable<Creature>)this.CombatState.HittableEnemies)
+        Flash();
+        await NinjaAnim.TriggerAttackAnim(Owner, 0.5f);
+        await Cmd.CustomScaledWait(0.2f, 0.4f);
+        foreach (var hittableEnemy in CombatState.HittableEnemies)
         {
-            NCombatRoom instance = NCombatRoom.Instance;
-            if (instance != null)
-                instance.CombatVfxContainer.AddChildSafely(
-                    (Node)NBigSlashVfx.Create(hittableEnemy)
-                );
+            var instance = NCombatRoom.Instance;
+            instance?.CombatVfxContainer.AddChildSafely(NBigSlashVfx.Create(hittableEnemy)!);
         }
-        await MegaCrit.Sts2.Core.Commands.Cmd.CustomScaledWait(0.2f, 0.4f);
-        IEnumerable<DamageResult> damageResults = await CreatureCmd.Damage(
+        await Cmd.CustomScaledWait(0.2f, 0.4f);
+        await CreatureCmd.Damage(
             choiceContext,
-            (IEnumerable<Creature>)this.CombatState.HittableEnemies,
-            this.DynamicVars.Damage,
-            this.Owner
+            CombatState.HittableEnemies,
+            DynamicVars.Damage,
+            Owner
         );
-        await PowerCmd.Remove((PowerModel)this);
+        await PowerCmd.Remove(this);
     }
 }

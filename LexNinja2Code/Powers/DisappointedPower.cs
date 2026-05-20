@@ -1,5 +1,5 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -18,13 +18,7 @@ public class DisappointedPower : CustomPowerModel
     {
         if (cardPlay.Card.Type == CardType.Attack && cardPlay.Card.Owner == Owner.Player)
         {
-            await PowerCmd.Apply<WeakPower>(
-                new ThrowingPlayerChoiceContext(),
-                Owner,
-                1,
-                null,
-                null
-            );
+            await PowerCmd.Apply<WeakPower>(context, Owner, 1, null, null);
             await PowerCmd.Remove(this);
         }
     }

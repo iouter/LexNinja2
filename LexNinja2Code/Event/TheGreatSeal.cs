@@ -1,6 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Cards;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Cards.Curses;
 using MegaCrit.Sts2.Core.Audio.Debug;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
@@ -48,7 +48,7 @@ public class TheGreatSeal : CustomEventModel
         // NinjaAudio.Stop("res://LexNinja2/audio/TheGreatSeal.mp3",10f);
         NinjaAudio.Stop("res://LexNinja2/audio/TheGreatSeal2.mp3", 10f);
         NinjaAudio.Play("res://LexNinja2/audio/TheGreatSeal0.mp3");
-        MegaCrit.Sts2.Core.Commands.Cmd.Wait(2f, true);
+        Cmd.Wait(2f, true);
         NinjaAudio.Play("res://LexNinja2/audio/Hamood.mp3", 0.25f);
         // NinjaAudio.PlayLooped("res://LexNinja2/audio/TheGreatSeal.mp3",0.25f);
         NinjaAudio.PlayLooped("res://LexNinja2/audio/TheGreatSeal2.mp3", 0.25f);
@@ -71,13 +71,13 @@ public class TheGreatSeal : CustomEventModel
     private async Task SaveHamood()
     {
         CardCmd.PreviewCardPileAdd(
-            await CardPileCmd.Add(Owner.RunState.CreateCard<Normality>(base.Owner), PileType.Deck)
+            await CardPileCmd.Add(Owner!.RunState.CreateCard<Normality>(Owner), PileType.Deck)
         );
-        for (int i = 0; i < 2; i++)
+        for (var i = 0; i < 2; i++)
         {
             await RelicCmd.Obtain(
-                RelicFactory.PullNextRelicFromFront(base.Owner, RelicRarity.Rare).ToMutable(),
-                base.Owner
+                RelicFactory.PullNextRelicFromFront(Owner, RelicRarity.Rare).ToMutable(),
+                Owner
             );
         }
         SetEventFinished(PageDescription("OPTION_1"));
@@ -102,11 +102,11 @@ public class TheGreatSeal : CustomEventModel
         );
         SetEventFinished(PageDescription("OPTION_2"));
         NinjaAudio.Play("res://LexNinja2/audio/KillYourGrandpa.mp3");
-        await MegaCrit.Sts2.Core.Commands.Cmd.Wait(2.5f);
+        await Cmd.Wait(2.5f);
         NinjaAudio.Play("res://LexNinja2/audio/HamoodKick.mp3");
-        NDebugAudioManager.Instance.Play("blunt_attack.mp3", 0.8f, PitchVariance.Medium);
-        await MegaCrit.Sts2.Core.Commands.Cmd.Wait(1.5f);
-        NDebugAudioManager.Instance.Play("heavy_attack.mp3", 0.8f, PitchVariance.Medium);
+        NDebugAudioManager.Instance?.Play("blunt_attack.mp3", 0.8f, PitchVariance.Medium);
+        await Cmd.Wait(1.5f);
+        NDebugAudioManager.Instance?.Play("heavy_attack.mp3", 0.8f, PitchVariance.Medium);
         NinjaAudio.Play("res://LexNinja2/audio/KillHamood.mp3");
     }
 
@@ -115,10 +115,7 @@ public class TheGreatSeal : CustomEventModel
         NinjaAudio.Play("res://LexNinja2/audio/Hamood.mp3");
         NinjaAudio.Play("res://LexNinja2/audio/KillAll.mp3");
         CardCmd.PreviewCardPileAdd(
-            await CardPileCmd.Add(
-                Owner.RunState.CreateCard<HamoodKillAll>(base.Owner),
-                PileType.Deck
-            )
+            await CardPileCmd.Add(Owner!.RunState.CreateCard<HamoodKillAll>(Owner), PileType.Deck)
         );
         SetEventFinished(PageDescription("OPTION_3"));
     }

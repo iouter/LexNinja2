@@ -1,15 +1,14 @@
 ﻿using BaseLib.Utils;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
-using MegaCrit.Sts2.Core.CardSelection;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
-namespace LexNinja2.LexNinja2Code.Cards;
+namespace LexNinja2.LexNinja2Code.Cards.Tokens;
 
 [Pool(typeof(TokenCardPool))]
 public class SaltyFish() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, TargetType.Self)
@@ -20,19 +19,17 @@ public class SaltyFish() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, Ta
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        CardModel card = (
-            await CardSelectCmd.FromSimpleGrid(
-                choiceContext,
-                PileType.Discard.GetPile(Owner).Cards,
-                Owner,
-                new CardSelectorPrefs(SelectionScreenPrompt, 1)
-            )
-        ).FirstOrDefault<CardModel>();
+        var card = await CommonActions.SelectSingleCard(
+            this,
+            SelectionScreenPrompt,
+            choiceContext,
+            PileType.Discard
+        );
         if (card == null)
             return;
         NinjaAudio.Play("res://LexNinja2/audio/SaltyFish.mp3");
         card.SetToFreeThisTurn();
-        CardPileAddResult cardPileAddResult = await CardPileCmd.Add(card, PileType.Hand);
+        await CardPileCmd.Add(card, PileType.Hand);
     }
 
     protected override void OnUpgrade()

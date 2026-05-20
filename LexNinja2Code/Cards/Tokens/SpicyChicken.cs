@@ -1,15 +1,15 @@
 ﻿using BaseLib.Extensions;
 using BaseLib.Utils;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
-using MegaCrit.Sts2.Core.Commands;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 
-namespace LexNinja2.LexNinja2Code.Cards;
+namespace LexNinja2.LexNinja2Code.Cards.Tokens;
 
 [Pool(typeof(TokenCardPool))]
 public class SpicyChicken() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, TargetType.Self)
@@ -22,13 +22,7 @@ public class SpicyChicken() : LexNinja2Card(0, CardType.Skill, CardRarity.Token,
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/SpicyChicken.mp3");
-        await PowerCmd.Apply<FlexPotionPower>(
-            new ThrowingPlayerChoiceContext(),
-            Owner.Creature,
-            DynamicVars.Power<FlexPotionPower>().BaseValue,
-            Owner.Creature,
-            this
-        );
+        await CommonActions.ApplySelf<FlexPotionPower>(choiceContext, this);
     }
 
     protected override void OnUpgrade()

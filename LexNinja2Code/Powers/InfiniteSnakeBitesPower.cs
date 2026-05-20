@@ -1,6 +1,7 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Cards;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
+using LexNinja2.LexNinja2Code.Cards.Commons;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -32,7 +33,7 @@ public class InfiniteSnakeBitesPower : CustomPowerModel
             return;
         Flash();
         NinjaAudio.Play("res://LexNinja2/audio/ShootOnThis.mp3");
-        for (int i = 0; i < Amount; i++)
+        for (var i = 0; i < Amount; i++)
         {
             CardModel card = CombatState.CreateCard<AngrySnakeBite>(Owner.Player);
             CardCmd.Upgrade(card);

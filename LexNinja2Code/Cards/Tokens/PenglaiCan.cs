@@ -1,15 +1,14 @@
 ﻿using BaseLib.Utils;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
-using MegaCrit.Sts2.Core.CardSelection;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 
-namespace LexNinja2.LexNinja2Code.Cards;
+namespace LexNinja2.LexNinja2Code.Cards.Tokens;
 
 [Pool(typeof(TokenCardPool))]
 public class PenglaiCan() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, TargetType.Self)
@@ -22,20 +21,15 @@ public class PenglaiCan() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, T
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/PenglaiCan.mp3");
-        CardSelectorPrefs prefs = new CardSelectorPrefs(
+        var cards = await CommonActions.SelectCards(
+            this,
             SelectionScreenPrompt,
+            choiceContext,
+            PileType.Hand,
             0,
             DynamicVars.Cards.IntValue
         );
-        foreach (
-            CardModel card in await CardSelectCmd.FromHand(
-                choiceContext,
-                Owner,
-                prefs,
-                (Func<CardModel, bool>)null,
-                (AbstractModel)this
-            )
-        )
+        foreach (var card in cards)
             await CardCmd.Exhaust(choiceContext, card);
     }
 

@@ -1,15 +1,15 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
+using LexNinja2.LexNinja2Code.Api.Hooks;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 
 namespace LexNinja2.LexNinja2Code.Powers;
 
-public class IRepresentShinobiPower : CustomPowerModel
+public class IRepresentShinobiPower : CustomPowerModel, IAfterLexKelaSpent
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -19,19 +19,29 @@ public class IRepresentShinobiPower : CustomPowerModel
     public override string CustomPackedIconPath => "IRepresentShinobiPower32.png".PowerImagePath();
     public override string? CustomBigIconPath => "IRepresentShinobiPower84.png".BigPowerImagePath();
 
-    public override async Task AfterPowerAmountChanged(
-        PlayerChoiceContext choiceContext,
-        PowerModel power,
-        Decimal amount,
-        Creature? applier,
-        CardModel? cardSource
-    )
+    // public override async Task AfterPowerAmountChanged(
+    //     PlayerChoiceContext choiceContext,
+    //     PowerModel power,
+    //     decimal amount,
+    //     Creature? applier,
+    //     CardModel? cardSource
+    // )
+    // {
+    //     if (power is Lexkela && amount < 0 && power.Owner == Owner)
+    //     {
+    //         NinjaAudio.Play("res://LexNinja2/audio/IRepresentShinobi.mp3");
+    //         if (Owner.Player != null)
+    //             await PlayerCmd.GainEnergy(Amount, Owner.Player);
+    //     }
+    // }
+
+    public async Task AfterLexKelaSpent(int amount, Player spender)
     {
-        Lexkela lexkela = power as Lexkela;
-        if (power == lexkela && amount < 0 && power.Owner == Owner)
+        if (spender != Owner.Player)
         {
-            NinjaAudio.Play("res://LexNinja2/audio/IRepresentShinobi.mp3");
-            PlayerCmd.GainEnergy(this.Amount, Owner.Player);
+            return;
         }
+        NinjaAudio.Play("res://LexNinja2/audio/IRepresentShinobi.mp3");
+        await PlayerCmd.GainEnergy(Amount, Owner.Player);
     }
 }

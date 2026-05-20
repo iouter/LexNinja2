@@ -1,6 +1,7 @@
 ﻿using BaseLib.Abstracts;
 using Godot;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -15,6 +16,7 @@ namespace LexNinja2.LexNinja2Code.Powers;
 
 public class NuclearDragonPower : CustomPowerModel
 {
+    private const float Scale = 0.8f;
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -26,33 +28,25 @@ public class NuclearDragonPower : CustomPowerModel
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-        if (side != this.Owner.Side)
+        if (side != Owner.Side)
         {
             return;
         }
 
-        if (Owner.GetPower<Lexkela>() == null)
+        if (!Owner.HasPower<Lexkela>())
         {
             return;
         }
         Flash();
-        await PowerCmd.Apply<Lexkela>(
-            new ThrowingPlayerChoiceContext(),
-            Owner,
-            -Owner.GetPower<Lexkela>().Amount,
-            null,
-            null
-        );
+        await PowerCmd.Remove<Lexkela>(Owner);
 
-        float scale = 0.8f;
-        NGroundFireVfx child = NGroundFireVfx.Create(Owner);
+        var child = NGroundFireVfx.Create(Owner);
         if (child == null)
             return;
         SfxCmd.Play("event:/sfx/characters/attack_fire");
-        child.Scale = Vector2.One * scale;
-        NCombatRoom instance = NCombatRoom.Instance;
-        if (instance != null)
-            instance.CombatVfxContainer.AddChildSafely((Node)child);
+        child.Scale = Vector2.One * Scale;
+        var instance = NCombatRoom.Instance;
+        instance?.CombatVfxContainer.AddChildSafely(child);
     }
 
     public override async Task BeforeHandDraw(
@@ -67,17 +61,15 @@ public class NuclearDragonPower : CustomPowerModel
         }
         Flash();
         NinjaAudio.Play("res://LexNinja2/audio/NuclearDragon.mp3");
-        await PowerCmd.Apply<Lexkela>(new ThrowingPlayerChoiceContext(), Owner, Amount, null, null);
+        await PowerCmd.Apply<Lexkela>(choiceContext, Owner, Amount, Owner, null);
 
-        float scale = 0.8f;
-        NGroundFireVfx child = NGroundFireVfx.Create(Owner);
+        var child = NGroundFireVfx.Create(Owner);
         if (child == null)
             return;
         SfxCmd.Play("event:/sfx/characters/attack_fire");
-        child.Scale = Vector2.One * scale;
-        NCombatRoom instance = NCombatRoom.Instance;
-        if (instance != null)
-            instance.CombatVfxContainer.AddChildSafely((Node)child);
+        child.Scale = Vector2.One * Scale;
+        var instance = NCombatRoom.Instance;
+        instance?.CombatVfxContainer.AddChildSafely(child);
     }
 
     /*public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)

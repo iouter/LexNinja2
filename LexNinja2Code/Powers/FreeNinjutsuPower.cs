@@ -1,38 +1,42 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api.Extensions;
+using LexNinja2.LexNinja2Code.Api.Hooks;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 
 namespace LexNinja2.LexNinja2Code.Powers;
 
-public class FreeNinjutsuPower : CustomPowerModel
+public class FreeNinjutsuPower : CustomPowerModel, ITryModifyLexKelaCost, IAfterLexKelaSpent
 {
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override string CustomPackedIconPath => "DimDeadTreePower32.png".PowerImagePath();
     public override string? CustomBigIconPath => "DimDeadTreePower84.png".BigPowerImagePath();
 
-    public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+    public bool TryModifyLexKeLaCost(CardModel card, decimal originalCost, out decimal modifiedCost)
     {
-        if (cardPlay.Card.Owner != Owner.Player)
+        if (card.Owner.Creature != Owner)
+        {
+            modifiedCost = originalCost;
+            return false;
+        }
+        modifiedCost = 0;
+        return true;
+    }
+
+    public async Task AfterLexKelaSpent(int amount, Player spender)
+    {
+        if (spender.Creature != Owner)
         {
             return;
         }
-        // if (cardPlay.Card.BaseReplayCount >1)
-        // {
-        //     return;
-        // }
-        if (cardPlay.Card.Keywords.Contains(NinjaKeyword.FreeNinjutsu))
+        if (amount > 0)
         {
             return;
         }
-        if (cardPlay.Card.Tags.Contains(NinjaTags.Ninjutsu))
-        {
-            await PowerCmd.Decrement(this);
-        }
+        await PowerCmd.Decrement(this);
     }
 }

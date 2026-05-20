@@ -1,5 +1,5 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -22,8 +22,8 @@ public class Radiation : CustomPowerModel
         if (side != this.Owner.Side)
             return;
         Flash();
-        decimal Radiation = (decimal)Owner.MaxHp * Amount / 100;
-        await CreatureCmd.LoseMaxHp(new ThrowingPlayerChoiceContext(), Owner, Radiation, false);
+        var radiation = (decimal)Owner.MaxHp * Amount / 100;
+        await CreatureCmd.LoseMaxHp(new ThrowingPlayerChoiceContext(), Owner, radiation, false);
     }
 
     private decimal CalculateMaxHp()

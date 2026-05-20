@@ -1,5 +1,5 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -20,58 +20,54 @@ public class DoubleDamagePower : CustomPowerModel
     public override string CustomPackedIconPath => "DoubleDamagePower.png".PowerImagePath();
     public override string? CustomBigIconPath => "DoubleDamagePower.png".BigPowerImagePath();
 
-    protected override object InitInternalData() => (object)new Data();
+    protected override object InitInternalData() => new Data();
 
     public override Task BeforeAttack(AttackCommand command)
     {
         if (
-            !(command.ModelSource is CardModel modelSource)
-            || modelSource.Owner.Creature != this.Owner
+            command.ModelSource is not CardModel modelSource
+            || modelSource.Owner.Creature != Owner
             || modelSource.Type != CardType.Attack
             || !command.DamageProps.IsPoweredAttack()
         )
             return Task.CompletedTask;
-        Data internalData = this.GetInternalData<Data>();
-        if (internalData.commandToModify != null)
+        var internalData = GetInternalData<Data>();
+        if (internalData.CommandToModify != null)
             return Task.CompletedTask;
-        internalData.commandToModify = command;
+        internalData.CommandToModify = command;
         return Task.CompletedTask;
     }
 
-    public override Decimal ModifyDamageMultiplicative(
+    public override decimal ModifyDamageMultiplicative(
         Creature? target,
-        Decimal amount,
+        decimal amount,
         ValueProp props,
         Creature? dealer,
         CardModel? cardSource
     )
     {
-        if (
-            cardSource == null
-            || cardSource.Owner.Creature != this.Owner
-            || !props.IsPoweredAttack()
-        )
+        if (cardSource == null || cardSource.Owner.Creature != Owner || !props.IsPoweredAttack())
             return 1M;
-        Data internalData = this.GetInternalData<Data>();
+        var internalData = GetInternalData<Data>();
         return
-            internalData.commandToModify != null
-            && cardSource != internalData.commandToModify.ModelSource
+            internalData.CommandToModify != null
+            && cardSource != internalData.CommandToModify.ModelSource
             ? 1
             : 2;
     }
 
     public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
     {
-        DoubleDamagePower power = this;
-        Data internalData = power.GetInternalData<Data>();
-        if (command != internalData.commandToModify)
+        var power = this;
+        var internalData = power.GetInternalData<Data>();
+        if (command != internalData.CommandToModify)
             return;
-        internalData.commandToModify = (AttackCommand)null;
-        await PowerCmd.Remove((PowerModel)power);
+        internalData.CommandToModify = null;
+        await PowerCmd.Remove(power);
     }
 
     private class Data
     {
-        public AttackCommand? commandToModify;
+        public AttackCommand? CommandToModify;
     }
 }

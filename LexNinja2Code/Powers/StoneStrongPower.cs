@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -22,17 +23,11 @@ public class StoneStrongPower : CustomPowerModel
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-        if (side != this.Owner.Side)
+        if (side != Owner.Side)
         {
             return;
         }
         NinjaAudio.Play("res://LexNinja2/audio/StoneStrong.mp3");
-        await PowerCmd.Apply<SandWall>(
-            new ThrowingPlayerChoiceContext(),
-            Owner,
-            Amount,
-            null,
-            null
-        );
+        await PowerCmd.Apply<SandWall>(choiceContext, Owner, Amount, null, null);
     }
 }

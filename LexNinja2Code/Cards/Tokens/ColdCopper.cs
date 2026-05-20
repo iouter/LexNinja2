@@ -1,14 +1,14 @@
 ﻿using BaseLib.Utils;
-using LexNinja2.LexNinja2Code.Cmd;
-using LexNinja2.LexNinja2Code.Extensions;
-using MegaCrit.Sts2.Core.Commands;
+using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
 
-namespace LexNinja2.LexNinja2Code.Cards;
+namespace LexNinja2.LexNinja2Code.Cards.Tokens;
 
 [Pool(typeof(TokenCardPool))]
 public class ColdCopper() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, TargetType.Self)
@@ -21,7 +21,7 @@ public class ColdCopper() : LexNinja2Card(0, CardType.Skill, CardRarity.Token, T
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/ColdCopper.mp3");
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, play);
+        await CommonActions.CardBlock(this, play);
     }
 
     protected override void OnUpgrade()

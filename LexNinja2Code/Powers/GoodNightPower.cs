@@ -1,5 +1,5 @@
 ﻿using BaseLib.Abstracts;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -38,15 +38,11 @@ public class GoodNightPower : CustomPowerModel
             flag++;
             return;
         }
-        PowerCmd.Remove(this);
+        await PowerCmd.Remove(this);
     }
 
     public override bool ShouldPlay(CardModel card, AutoPlayType _)
     {
-        if (card.Owner == this.Owner.Player)
-        {
-            return false;
-        }
-        return true;
+        return card.Owner != Owner.Player;
     }
 }

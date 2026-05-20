@@ -1,9 +1,7 @@
 ﻿using BaseLib.Abstracts;
-using Godot;
-using LexNinja2.LexNinja2Code.Extensions;
+using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
@@ -20,7 +18,7 @@ public class ReaperFlame : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override object InitInternalData() => (object)new Data();
+    protected override object InitInternalData() => new Data();
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(Amount, ValueProp.Unblockable | ValueProp.Unpowered)];
@@ -30,25 +28,24 @@ public class ReaperFlame : CustomPowerModel
 
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
-        this.GetInternalData<Data>().amountsForPlayedCards.Add(cardPlay.Card, this.Amount);
+        GetInternalData<Data>().AmountsForPlayedCards.Add(cardPlay.Card, Amount);
         return Task.CompletedTask;
     }
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (
-            GetInternalData<Data>().amountsForPlayedCards.Remove(cardPlay.Card, out var value)
+            GetInternalData<Data>().AmountsForPlayedCards.Remove(cardPlay.Card, out _)
             && cardPlay.Card.Owner == Owner.Player
         )
         {
             Flash();
-            NCombatRoom instance = NCombatRoom.Instance;
-            foreach (Creature enemy in CombatState.HittableEnemies)
+            var instance = NCombatRoom.Instance;
+            foreach (var enemy in CombatState.HittableEnemies)
             {
-                if (instance != null && enemy != null)
-                    instance.CombatVfxContainer.AddChildSafely(
-                        (Node)NGroundFireVfx.Create(enemy, VfxColor.Purple)
-                    );
+                instance?.CombatVfxContainer.AddChildSafely(
+                    NGroundFireVfx.Create(enemy, VfxColor.Purple)!
+                );
                 SfxCmd.Play("event:/sfx/characters/attack_fire");
                 await CreatureCmd.Damage(
                     context,
@@ -64,7 +61,6 @@ public class ReaperFlame : CustomPowerModel
 
     private class Data
     {
-        public readonly Dictionary<CardModel, int> amountsForPlayedCards =
-            new Dictionary<CardModel, int>();
+        public readonly Dictionary<CardModel, int> AmountsForPlayedCards = new();
     }
 }

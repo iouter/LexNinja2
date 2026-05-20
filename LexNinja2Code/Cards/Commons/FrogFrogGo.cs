@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -27,7 +28,7 @@ public class FrogFrogGo() : LexNinja2Card(0, CardType.Skill, CardRarity.Common, 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/FrogFrogGo.mp3");
-        if (Ninjutsu(choiceContext))
+        if (await Ninjutsu(choiceContext))
         {
             await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
         }

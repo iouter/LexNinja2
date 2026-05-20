@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -32,7 +33,7 @@ public class ShadeCrossSlash()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        if (Ninjutsu(choiceContext))
+        if (await Ninjutsu(choiceContext))
         {
             NinjaAudio.Play("res://LexNinja2/audio/ShadeCrossSlash.mp3");
             var nGrandFinaleVfx = NGrandFinaleVfx.Create(Owner.Creature);

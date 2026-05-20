@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
@@ -23,7 +24,7 @@ public class FourNightsLightning()
         await NinjaAnim.TriggerCastAnim(this);
         await Cmd.Wait(0.5f);
         decimal repeatCount = 1;
-        if (Ninjutsu(choiceContext))
+        if (await Ninjutsu(choiceContext))
         {
             repeatCount += DynamicVars.Repeat.BaseValue;
         }

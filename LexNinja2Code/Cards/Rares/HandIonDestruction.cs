@@ -1,6 +1,7 @@
 ﻿using BaseLib.Utils;
 using Godot;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -33,7 +34,7 @@ public class HandIonDestruction()
             return;
         }
         NinjaAudio.Play("res://LexNinja2/audio/HandIonDestruction.mp3");
-        if (Ninjutsu(choiceContext))
+        if (await Ninjutsu(choiceContext))
         {
             await Cmd.Wait(1.2f);
             await PowerCmd.Apply<DoubleDamagePower>(

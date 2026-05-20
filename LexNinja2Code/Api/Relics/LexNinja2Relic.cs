@@ -5,7 +5,7 @@ using Godot;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Character;
 
-namespace LexNinja2.LexNinja2Code.Relics;
+namespace LexNinja2.LexNinja2Code.Api.Relics;
 
 [Pool(typeof(LexNinja2RelicPool))]
 public abstract class LexNinja2Relic : CustomRelicModel

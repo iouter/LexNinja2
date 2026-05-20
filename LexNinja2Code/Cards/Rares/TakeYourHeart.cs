@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
@@ -35,7 +36,7 @@ public class TakeYourHeart()
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        if (!IsEnoughDebuff(play.Target!) || !Ninjutsu(choiceContext))
+        if (!IsEnoughDebuff(play.Target!) || !await Ninjutsu(choiceContext))
         {
             await CommonActions
                 .CardAttack(this, play, vfx: "vfx/vfx_attack_blunt", tmpSfx: "blunt_attack.mp3")

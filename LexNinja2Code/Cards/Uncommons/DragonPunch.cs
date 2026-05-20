@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -24,7 +25,7 @@ public class DragonPunch()
         await CommonActions
             .CardAttack(this, play, vfx: "vfx/vfx_thrash", tmpSfx: "blunt_attack.mp3")
             .Execute(choiceContext);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

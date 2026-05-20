@@ -3,7 +3,7 @@ using BaseLib.Extensions;
 using Godot;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 
-namespace LexNinja2.LexNinja2Code.Powers;
+namespace LexNinja2.LexNinja2Code.Api.Powers;
 
 public abstract class LexNinja2Power : CustomPowerModel
 {

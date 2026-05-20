@@ -1,6 +1,7 @@
 ﻿using BaseLib.Extensions;
 using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -24,7 +25,7 @@ public class WePeace() : LexNinja2Card(1, CardType.Skill, CardRarity.Uncommon, T
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

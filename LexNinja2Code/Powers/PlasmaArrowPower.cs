@@ -1,15 +1,16 @@
 ﻿using BaseLib.Abstracts;
 using LexNinja2.LexNinja2Code.Api;
 using LexNinja2.LexNinja2Code.Api.Extensions;
+using LexNinja2.LexNinja2Code.Api.Hooks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 
 namespace LexNinja2.LexNinja2Code.Powers;
 
-public class PlasmaArrowPower : CustomPowerModel
+public class PlasmaArrowPower : CustomPowerModel, ITryModifyLexKelaCost, IAfterLexKelaSpent
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -39,30 +40,27 @@ public class PlasmaArrowPower : CustomPowerModel
         return true;
     }
 
-    public override async Task BeforeCardPlayed(CardPlay cardPlay)
+    public bool TryModifyLexKeLaCost(CardModel card, decimal originalCost, out decimal modifiedCost)
     {
-        if (cardPlay.Card.Keywords.Contains(NinjaKeyword.FreeNinjutsu))
+        if (card.Owner.Creature != Owner)
         {
-            return;
+            modifiedCost = originalCost;
+            return false;
         }
-        if (
-            cardPlay.Card.Owner.Creature != Owner
-            || !cardPlay.Card.Tags.Contains(NinjaTags.Ninjutsu)
-        )
-        {
-            return;
-        }
+        modifiedCost = 0;
+        return true;
+    }
 
-        var pileType = cardPlay.Card.Pile?.Type;
-        if (pileType is not (PileType.Hand or PileType.Play))
+    public async Task AfterLexKelaSpent(int amount, Player spender)
+    {
+        if (spender.Creature != Owner)
+        {
             return;
-        await PowerCmd.Apply<FreeNinjutsuPower>(
-            new ThrowingPlayerChoiceContext(),
-            Owner,
-            1,
-            Owner,
-            null
-        );
+        }
+        if (amount > 0)
+        {
+            return;
+        }
         await PowerCmd.Decrement(this);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Cards.Ancients;
@@ -29,7 +30,7 @@ public class YiCut()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/YiCut.mp3");
-        if (Ninjutsu(choiceContext))
+        if (await Ninjutsu(choiceContext))
         {
             await CommonActions
                 .CardAttack(

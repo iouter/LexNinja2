@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
@@ -33,7 +34,7 @@ public class BlackDragonHand()
             await PowerCmd.Remove<IntangiblePower>(play.Target);
         }
 
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

@@ -1,4 +1,5 @@
 ﻿using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
 using MegaCrit.Sts2.Core.Commands;
@@ -15,11 +16,7 @@ public class AnnaiMaster() : LexNinja2Card(1, CardType.Skill, CardRarity.Uncommo
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<Lexkela>(),
-            HoverTipFactory.FromKeyword(NinjaKeyword.Renshu),
-            HoverTipFactory.FromKeyword(NinjaKeyword.FreeNinjutsu),
-        ];
+        [HoverTipFactory.FromPower<Lexkela>(), HoverTipFactory.FromKeyword(NinjaKeyword.Renshu)];
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
@@ -42,10 +39,6 @@ public class AnnaiMaster() : LexNinja2Card(1, CardType.Skill, CardRarity.Uncommo
         if (card == null)
             return;
         card.SetToFreeThisTurn();
-        if (card is LexNinja2Card lexNinjaCard)
-        {
-            lexNinjaCard.SetLexkelaToFreeUntilPlayed();
-        }
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner);
     }
 

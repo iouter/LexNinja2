@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
@@ -43,7 +44,7 @@ public class BuddhaHand()
             .CardAttack(this, play, vfx: "vfx/vfx_attack_blunt")
             .Execute(choiceContext);
         await CommonActions.Apply<VulnerablePower>(choiceContext, this, play);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

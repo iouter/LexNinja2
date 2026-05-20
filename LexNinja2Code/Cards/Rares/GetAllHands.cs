@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -19,7 +20,7 @@ public class GetAllHands() : LexNinja2Card(2, CardType.Skill, CardRarity.Rare, T
     {
         NinjaAudio.Play("res://LexNinja2/audio/GetAllHands.mp3");
         await CommonActions.ApplySelf<GetAllHandsPower>(choiceContext, this);
-        // if (Ninjutsu(choiceContext))
+        // if (await Ninjutsu(choiceContext))
         // {
         //     for (int i = 0; i < DynamicVars.Cards.BaseValue; i++)
         //     {

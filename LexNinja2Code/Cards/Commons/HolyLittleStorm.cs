@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
 using MegaCrit.Sts2.Core.Commands;
@@ -24,15 +25,16 @@ public class HolyLittleStorm()
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [NinjaKeyword.Hand, NinjaKeyword.Blade];
     protected override HashSet<CardTag> CanonicalTags => [NinjaTags.Ninjutsu, NinjaTags.Holy];
-    protected override bool ShouldGlowGoldInternal => CanCastNinjutsuX();
+    protected override bool ShouldGlowGoldInternal => CanCastNinjutsu();
 
-    protected override bool HasLexKelaCostX => true;
+    public override bool HasLexKelaCostX => true;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/HolyLittleStorm.mp3");
         await Cmd.Wait(1f);
         var hitCount = ResolveLexkelaXValue() + 1;
+        await Ninjutsu(choiceContext);
         await CommonActions
             .CardAttack(
                 this,

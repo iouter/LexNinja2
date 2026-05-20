@@ -1,4 +1,5 @@
 ﻿using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Cards.Commons;
 using LexNinja2.LexNinja2Code.Powers;
@@ -17,12 +18,12 @@ public class GenshinStorm()
         [HoverTipFactory.FromCard<HolyLittleStorm>(true), HoverTipFactory.FromPower<Lexkela>()];
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [NinjaKeyword.Hand, NinjaKeyword.Blade, CardKeyword.Exhaust];
-    protected override bool ShouldGlowGoldInternal => CanCastNinjutsuX();
+    protected override bool ShouldGlowGoldInternal => CanCastNinjutsu();
     public override CardMultiplayerConstraint MultiplayerConstraint =>
         CardMultiplayerConstraint.MultiplayerOnly;
     protected override HashSet<CardTag> CanonicalTags => [NinjaTags.Ninjutsu];
 
-    protected override bool HasLexKelaCostX => true;
+    public override bool HasLexKelaCostX => true;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -32,6 +33,7 @@ public class GenshinStorm()
             where c is { IsAlive: true, IsPlayer: true }
             select c;
         var amount = ResolveLexkelaXValue();
+        await Ninjutsu(choiceContext);
         foreach (var player in players)
         {
             if (player == Owner.Creature)

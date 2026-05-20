@@ -1,6 +1,7 @@
 ﻿using BaseLib.Extensions;
 using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -28,7 +29,7 @@ public class StoneStrong() : LexNinja2Card(1, CardType.Power, CardRarity.Rare, T
     {
         NinjaAudio.Play("res://LexNinja2/audio/StoneStrong.mp3");
         await CommonActions.ApplySelf<StoneStrongPower>(choiceContext, this);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

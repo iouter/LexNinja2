@@ -1,5 +1,6 @@
 ﻿using BaseLib.Abstracts;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -25,7 +26,7 @@ public class TwoMonksPower : CustomPowerModel
 
         if (card is LexNinja2Card lexNinjaCard)
         {
-            lexNinjaCard.SetLexkelaToFreeUntilPlayed();
+            lexNinjaCard.SetLexKelaToFreeUntilPlayed();
         }
         return playCount + 1;
     }

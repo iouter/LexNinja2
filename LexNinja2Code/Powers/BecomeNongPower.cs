@@ -54,7 +54,8 @@ public class BecomeNongPower : CustomPowerModel
         await Cmd.Wait(1f);
         NinjaAudio.Play("res://LexNinja2/audio/BingBong.mp3", 0.3f);
         var card = GetInternalData<Data>().SelectedCard;
-        if (card == null) return;
+        if (card == null)
+            return;
 
         for (var i = 0; i < Amount; i++)
         {

@@ -1,6 +1,7 @@
 ﻿using BaseLib.Utils;
 using Godot;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -27,7 +28,7 @@ public class HamoodKick()
             .CardAttack(this, play, tmpSfx: "blunt_attack.mp3")
             .WithHitVfxNode((Func<Creature, Node2D>)(t => NBigSlashImpactVfx.Create(t)!))
             .Execute(choiceContext);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -23,7 +24,7 @@ public class BuildSandWall()
         NinjaAudio.Play("res://LexNinja2/audio/BuildSandWall.mp3");
         await CommonActions.ApplySelf<BuildSandWallPower>(choiceContext, this);
         var sandWallPower = Owner.Creature.GetPower<SandWall>();
-        if (sandWallPower == null || !Ninjutsu(choiceContext))
+        if (sandWallPower == null || !await Ninjutsu(choiceContext))
         {
             return;
         }

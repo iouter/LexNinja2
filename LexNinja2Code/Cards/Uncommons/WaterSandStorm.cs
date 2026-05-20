@@ -2,6 +2,7 @@
 using BaseLib.Utils;
 using Godot;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -33,7 +34,7 @@ public class WaterSandStorm()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/WaterSandStorm.mp3");
-        if (Ninjutsu(choiceContext))
+        if (await Ninjutsu(choiceContext))
         {
             await CommonActions.ApplySelf<SandWall>(choiceContext, this);
         }

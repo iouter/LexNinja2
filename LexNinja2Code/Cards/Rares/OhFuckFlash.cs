@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -22,7 +23,7 @@ public class OhFuckFlash() : LexNinja2Card(2, CardType.Skill, CardRarity.Rare, T
     {
         NinjaAudio.Play("res://LexNinja2/audio/OhFuckFlash.mp3");
         await CommonActions.ApplySelf<BufferPower>(choiceContext, this);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

@@ -1,6 +1,7 @@
 ﻿using BaseLib.Extensions;
 using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -25,7 +26,7 @@ public class SouthCrossSeal()
         NinjaAudio.Play("res://LexNinja2/audio/SouthCrossSeal.wav");
         await CreatureCmd.Stun(play.Target!);
         await CreatureCmd.GainBlock(play.Target!, 50, ValueProp.Unpowered, play);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

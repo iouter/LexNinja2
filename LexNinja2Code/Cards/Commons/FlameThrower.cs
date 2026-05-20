@@ -1,6 +1,7 @@
 ﻿using BaseLib.Extensions;
 using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using LexNinja2.LexNinja2Code.Powers;
@@ -41,7 +42,7 @@ public class FlameThrower()
         instance?.CombatVfxContainer.AddChildSafely(NGroundFireVfx.Create(play.Target!)!);
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
         await CommonActions.Apply<WeakPower>(choiceContext, this, play);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

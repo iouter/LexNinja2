@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using LexNinja2.LexNinja2Code.Api;
+using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
 using MegaCrit.Sts2.Core.Commands;
@@ -28,7 +29,7 @@ public class DragonSmog() : LexNinja2Card(3, CardType.Skill, CardRarity.Rare, Ta
     {
         NinjaAudio.Play("res://LexNinja2/audio/DragonSmog.mp3");
         await CommonActions.ApplySelf<IntangiblePower>(choiceContext, this);
-        if (!Ninjutsu(choiceContext))
+        if (!await Ninjutsu(choiceContext))
         {
             return;
         }

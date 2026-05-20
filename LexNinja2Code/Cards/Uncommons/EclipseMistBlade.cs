@@ -29,7 +29,7 @@ public class EclipseMistBlade()
         foreach (var card in GetCards().ToList())
         {
             await CardCmd.Exhaust(choiceContext, card);
-            await NinjaHelper.AddLexKela(choiceContext, card);
+            await NinjaHelper.AddLexKela(choiceContext, this);
         }
     }
 

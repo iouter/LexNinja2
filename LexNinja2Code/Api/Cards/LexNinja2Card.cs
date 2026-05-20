@@ -132,7 +132,9 @@ public abstract class LexNinja2Card(int cost, CardType type, CardRarity rarity, 
         {
             return GetLexKelaAmount();
         }
-        if (CombatState != null)
+
+        var runState = Owner.RunState;
+        if (runState != null && CombatState != null)
             return (int)
                 NinjaHooks.ModifyLexKelaCost(
                     Owner.RunState,

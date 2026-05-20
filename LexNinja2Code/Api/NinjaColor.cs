@@ -18,7 +18,7 @@ public class NinjaColor
         }
         var combatState = card.CombatState;
         var runState = card.Owner.RunState;
-        if (combatState == null)
+        if (runState == null || combatState == null)
         {
             return CardCostColor.Unmodified;
         }

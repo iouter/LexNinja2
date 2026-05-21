@@ -44,6 +44,8 @@ public class KFC() : LexNinja2Relic
     }
 
     [SavedProperty]
+    // ReSharper disable once MemberCanBePrivate.Global
+    // BaseLib requires it to be public so that it can be scanned
     public int TurnsSeen
     {
         get => _turnsSeen;

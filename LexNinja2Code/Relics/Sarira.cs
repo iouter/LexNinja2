@@ -26,7 +26,7 @@ public class Sarira() : LexNinja2Relic
     protected override string BigIconPath => "Sarira.png".BigRelicImagePath();
 
     [SavedProperty]
-    private bool WasUsed
+    public bool WasUsed
     {
         get => this._wasUsed;
         set

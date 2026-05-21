@@ -44,7 +44,7 @@ public class KFC() : LexNinja2Relic
     }
 
     [SavedProperty]
-    private int TurnsSeen
+    public int TurnsSeen
     {
         get => _turnsSeen;
         set

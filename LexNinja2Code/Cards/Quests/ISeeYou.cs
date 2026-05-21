@@ -55,7 +55,7 @@ public class ISeeYou() : LexNinja2Card(-1, CardType.Quest, CardRarity.Quest, Tar
     // }
 
     [SavedProperty]
-    private int CombatsSeen
+    public int CombatsSeen
     {
         get => _combatsSeen;
         set

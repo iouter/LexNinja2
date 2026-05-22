@@ -2,7 +2,6 @@
 using LexNinja2.LexNinja2Code.Api.Cards;
 using LexNinja2.LexNinja2Code.Api.DynamicVars;
 using LexNinja2.LexNinja2Code.Api.Extensions;
-using LexNinja2.LexNinja2Code.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -22,10 +21,10 @@ public class CometCorruptedStar()
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         NinjaAudio.Play("res://LexNinja2/audio/CometCorruptedStar.mp3");
-        var kela = Owner.Creature.GetPower<Lexkela>();
-        if (kela is { Amount: > 2 })
+        var kela = GetLexKelaAmount();
+        if (kela > 2)
         {
-            await PowerCmd.Apply<Lexkela>(choiceContext, Owner.Creature, -1, Owner.Creature, this);
+            await SpendLexKela(1, choiceContext);
             await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
         }
         else

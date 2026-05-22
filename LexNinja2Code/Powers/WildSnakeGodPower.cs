@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
-using MegaCrit.Sts2.Core.TestSupport;
 
 namespace LexNinja2.LexNinja2Code.Powers;
 
@@ -59,14 +58,14 @@ public class WildSnakeGodPower : CustomPowerModel
         {
             return Task.CompletedTask;
         }
-        GetInternalData<Data>().AmountsForPlayedCards.Add(cardPlay.Card, Amount);
+        GetInternalData<Data>().AmountsForPlayedCards.Add(cardPlay.Card);
         return Task.CompletedTask;
     }
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (
-            GetInternalData<Data>().AmountsForPlayedCards.Remove(cardPlay.Card, out var value)
+            GetInternalData<Data>().AmountsForPlayedCards.Remove(cardPlay.Card)
             && cardPlay.Card.Owner == Owner.Player
         )
         {
@@ -79,7 +78,9 @@ public class WildSnakeGodPower : CustomPowerModel
             {
                 if (card.EnergyCost.GetWithModifiers(CostModifiers.None) < 0)
                     continue;
-                card.EnergyCost.SetThisCombat(NextEnergyCost());
+                card.EnergyCost.SetThisCombat(
+                    Owner.Player!.RunState.Rng.CombatEnergyCosts.NextInt(4)
+                );
                 NCard.FindOnTable(card)?.PlayRandomizeCostAnim();
             }
         }
@@ -90,28 +91,8 @@ public class WildSnakeGodPower : CustomPowerModel
         return player != Owner.Player ? count : count + Amount;
     }
 
-    private int _testEnergyCostOverride = -1;
-
-    public int TestEnergyCostOverride
-    {
-        get => _testEnergyCostOverride;
-        set
-        {
-            TestMode.AssertOn();
-            AssertMutable();
-            _testEnergyCostOverride = value;
-        }
-    }
-
-    private int NextEnergyCost()
-    {
-        return TestEnergyCostOverride >= 0
-            ? TestEnergyCostOverride
-            : Owner.Player!.RunState.Rng.CombatEnergyCosts.NextInt(4);
-    }
-
     private class Data
     {
-        public readonly Dictionary<CardModel, int> AmountsForPlayedCards = new();
+        public readonly List<CardModel> AmountsForPlayedCards = new();
     }
 }

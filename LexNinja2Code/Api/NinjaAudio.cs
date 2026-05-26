@@ -1,4 +1,5 @@
 using Godot;
+using MegaCrit.Sts2.Core.Saves;
 
 namespace LexNinja2.LexNinja2Code.Api;
 
@@ -27,6 +28,7 @@ public static class NinjaAudio
 
     private static void PlayInternal(string path, float volume, float pitch, bool loop)
     {
+        volume *= SaveManager.Instance.SettingsSave.VolumeSfx;
         if (!Cache.TryGetValue(path, out var stream))
         {
             stream = GD.Load<AudioStream>(path);

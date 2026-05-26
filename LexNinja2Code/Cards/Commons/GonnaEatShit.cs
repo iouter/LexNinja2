@@ -11,7 +11,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace LexNinja2.LexNinja2Code.Cards.Commons;
 
-public class GonnaEatShit() : LexNinja2Card(0, CardType.Skill, CardRarity.Common, TargetType.Self)
+public class GonnaEatShit() : LexNinja2Card(0, CardType.Attack, CardRarity.Common, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [

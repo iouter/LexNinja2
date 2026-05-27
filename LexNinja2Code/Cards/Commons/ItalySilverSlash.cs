@@ -16,7 +16,7 @@ public class ItalySilverSlash()
     : LexNinja2Card(1, CardType.Attack, CardRarity.Common, TargetType.RandomEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(4, ValueProp.Move), new RepeatVar(3), new CardsVar(3)];
+        [new DamageVar(4, ValueProp.Move), new RepeatVar(2), new CardsVar(2)];
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromCard<LanBlade>()];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [NinjaKeyword.Blade];

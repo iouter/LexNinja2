@@ -20,32 +20,6 @@ public class WildSnakeGodPower : CustomPowerModel
     public override string CustomPackedIconPath => "WildSnakeGodPower.png".PowerImagePath();
     public override string? CustomBigIconPath => "WildSnakeGodPower.png".BigPowerImagePath();
 
-    // public override async Task AfterSideTurnStart(
-    //     CombatSide side,
-    //     IReadOnlyList<Creature> creatures,
-    //     ICombatState combatState
-    // )
-    // {
-    //     if (side != Owner.Side)
-    //         return;
-    //
-    //     Flash();
-    //     foreach (
-    //         var card in PileType.Hand.GetPile(Owner.Player!).Cards.Where(c => !c.EnergyCost.CostsX)
-    //     )
-    //     {
-    //         if (card.EnergyCost.GetWithModifiers(CostModifiers.None) < 0)
-    //             continue;
-    //         card.EnergyCost.SetThisCombat(NextEnergyCost());
-    //         NCard.FindOnTable(card)?.PlayRandomizeCostAnim();
-    //         // IReadOnlyList<CardModel> cards = PileType.Hand.GetPile(Owner.Player).Cards;
-    //         // if (cards.Count == 0)
-    //         //     return;
-    //         // int amount = (int) ((Decimal) cards.Count * Amount);
-    //         // await CreatureCmd.GainBlock(Owner, amount, ValueProp.Unpowered, null);
-    //     }
-    // }
-
     public override Task BeforeCardPlayed(CardPlay cardPlay)
     {
         if (base.Applier?.Player == null)

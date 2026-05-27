@@ -13,7 +13,7 @@ namespace LexNinja2.LexNinja2Code.Cards.Commons;
 
 public class SaltStealth() : LexNinja2Card(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8,ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8, ValueProp.Move)];
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.Static(StaticHoverTip.Transform)];
 

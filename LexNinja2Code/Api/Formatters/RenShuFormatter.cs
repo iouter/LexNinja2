@@ -46,6 +46,14 @@ public class RenShuFormatter : IAutoRegisterFormatSpecifier
     {
         var sb = new StringBuilder();
         var color = NinjaColor.GetLexKelaCostColor(card).GetColorName();
+        if (color == null)
+        {
+            var renShu = card.DynamicVars.Ninjutsu();
+            if (renShu.WasJustUpgraded)
+            {
+                color = "green";
+            }
+        }
         var hasColor = color != null;
         if (hasColor)
         {

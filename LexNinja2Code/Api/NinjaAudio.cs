@@ -9,7 +9,7 @@ public static class NinjaAudio
     private static readonly Dictionary<string, List<AudioStreamPlayer>> ActivePlayers = new();
 
     // 基础播放（音量）
-    public static void Play(string path, float volume = 1f)
+    public static void Play(string path, float volume = 0.5f)
     {
         PlayInternal(path, volume, 1f, false);
     }
@@ -21,7 +21,7 @@ public static class NinjaAudio
     }
 
     // 循环播放（可调音量、音调）
-    public static void PlayLooped(string path, float volume = 1f, float pitch = 1f)
+    public static void PlayLooped(string path, float volume = 0.5f, float pitch = 1f)
     {
         PlayInternal(path, volume, pitch, true);
     }

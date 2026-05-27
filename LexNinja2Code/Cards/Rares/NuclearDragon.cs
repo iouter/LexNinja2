@@ -13,7 +13,7 @@ namespace LexNinja2.LexNinja2Code.Cards.Rares;
 public class NuclearDragon() : LexNinja2Card(1, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new PowerVar<NuclearDragonPower>(5)];
+        [new PowerVar<NuclearDragonPower>(6)];
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromPower<Lexkela>()];
 
